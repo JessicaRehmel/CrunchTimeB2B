@@ -7,7 +7,7 @@ class Company(models.Model):
 
     wants_tb = models.BooleanField() #do they care about the Test Bookstore; NO REAL COMPANY WILL - THIS IS JUST HERE FOR TESTING PURPOSES
     wants_kb = models.BooleanField() #do they care about Kobo
-    wants_gb = models.BooleanField() #do the care about Google Books
+    wants_gb = models.BooleanField() #do they care about Google Books
     wants_lc = models.BooleanField() #do they care about Livraria Cultura
     wants_sd = models.BooleanField() #do they care about Scribd
     wants_ab = models.BooleanField() #do they care about Audiobooks.com
