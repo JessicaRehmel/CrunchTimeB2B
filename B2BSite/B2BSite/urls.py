@@ -14,8 +14,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+#for redirect:
+from django.views.generic import RedirectView
+#for static files:
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+#add paths from the B2B application
+urlpatterns += [
+    path('B2B/', include('B2B.urls')),
+]
+
+#redirect root URL to B2B
+urlpatterns += [
+    path('', RedirectView.as_view(url='B2B/', permanent=True)),
+]
+
+#allow static files such as css
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
