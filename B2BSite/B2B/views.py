@@ -21,3 +21,21 @@ def results(request):
         #'all_books': all_books,
     }
     return render(request, 'results.html', context = context)
+
+
+def book_detail(request):
+    #all_books = Book.objects.all().order_by('title')
+
+    context = {
+        #'all_books': all_books,
+    }
+    return render(request, 'results.html', context = context)
+
+
+def company_detail(request):
+    #all_books = Book.objects.all().order_by('title')
+
+    context = {
+        #'all_books': all_books,
+    }
+    return render(request, 'results.html', context = context)

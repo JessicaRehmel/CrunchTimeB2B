@@ -2,4 +2,15 @@
 
 {% block content %}
     <h1>Search Form</h1>
+    <form action = "{% url 'results' %}" method ="GET"> <!--not sure about this: action = "{% url 'results' %}"-->
+        <label for="search_title">Title: </label>
+        <input id="search_title" type="text" name="title_field" placeholder="Enter book title">
+        <label for="search_authors">Author(s): </label>
+        <input id="search_authors" type="text" name="authors_field" placeholder="Enter author(s) (format: name, name, etc...)">
+        <label for="search_ISBN">ISBN: </label>
+        <input id="search_ISBN" type="text" name="ISBN_field" placeholder="Enter ISBN">
+        <label for="search_JSON">JSON: </label>
+        <input id="search_JSON" type="text" name="JSON_field" placeholder="Enter JSON data">
+        <input type="submit" value="Submit">
+    </form>
 {% endblock %}
