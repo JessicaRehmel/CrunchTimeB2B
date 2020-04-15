@@ -1,0 +1,36 @@
+#header {
+    background-color: #000000;
+    color: #ff2222;
+    padding-left: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom:10px;
+}
+
+.strong {
+    color: #ff2222;
+}
+
+/* unvisited link */
+.noColor:link {
+    color: black;
+    text-decoration: none;
+  }
+  
+  /* visited link */
+  .noColor:visited {
+    color: black;
+    text-decoration: none;
+  }
+  
+  /* mouse over link */
+  .noColor:hover {
+    color: black;
+    text-decoration: none;
+  }
+  
+  /* selected link */
+  .noColor:active {
+    color: black;
+    text-decoration: none;
+  } 
