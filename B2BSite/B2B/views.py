@@ -1,18 +1,41 @@
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from B2B.models import Company, Person
+from django.urls import reverse
 from django.views import generic
-
+import requests
 # Create your views here.
 
 def index(request):
-    """home/search page"""
-    #we shouldn't have to do much here, since the search_results view will handle processing the form
-    return render(request, 'index.html')
+    #all_books = Book.objects.all().order_by('title')
 
-def query_results(request):
-    #take the author/title/isbn and plug it into each of the checkmate parsers the user's company cares about, and display a list of SiteBookData objects
-    return render(request, 'results.html')
+    context = {
+        #'all_books': all_books,
+    }
+    return render(request, 'index.html', context = context)
 
-def blob_results(request):
-    #parse the JSON blob into author/title/isbn units, then plug each into each of the checkmate parsers the user's company cares about, and display a list of SiteBookData objects
-    return render(request, 'results.html')
+    
+def results(request):
+    #all_books = Book.objects.all().order_by('title')
+
+    context = {
+        #'all_books': all_books,
+    }
+    return render(request, 'results.html', context = context)
+
+
+def book_detail(request):
+    #all_books = Book.objects.all().order_by('title')
+
+    context = {
+        #'all_books': all_books,
+    }
+    return render(request, 'results.html', context = context)
+
+
+def company_detail(request):
+    #all_books = Book.objects.all().order_by('title')
+
+    context = {
+        #'all_books': all_books,
+    }
+    return render(request, 'results.html', context = context)

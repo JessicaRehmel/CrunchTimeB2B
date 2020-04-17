@@ -3,6 +3,9 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('query_results/', views.query_results, name='query_results'),
-    path('blob_results/', views.blob_results, name='blob_results'),
+    path('results/', views.results, name='results'),
+    #path('book_detail/<slug:book_id>/', views.view_book_detail, name='view_book_detail'),
+    #path('search/', SearchResultsView.as_view(), name='search'),
+    #path('submit_onix/', views.submit_onix, name='submit_onix'),
+    #path('process_onix/', views.process_onix, name='process_onix'),
 ]

@@ -1,7 +1,16 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <p>THIS IS WHERE WE CAN PUT THE SEARCH FORMS</p>
-  <p>ONE FORM WILL HAVE THREE TEXTFIELDS (AUTHOR, TITLE, ISBN) WITH A SUBMIT BUTTON AND BE PROCESSED BY query_results</p>
-  <p>THE OTHER WILL HAVE ONE BIG TEXTFIELD (JSON BLOB) WITH A SUBMIT BUTTON AND BE PROCESSED BY blob_results; THIS ONE ALSO NEEDS TO HAVE INSTRUCTIONS ON HOW TO FORMAT THE JSON</p>
+    <h1>Search Form</h1>
+    <form action = "{% url 'results' %}" method ="GET"> <!--not sure about this: action = "{% url 'results' %}"-->
+        <label for="search_title">Title: </label>
+        <input id="search_title" type="text" name="title_field" placeholder="Enter book title">
+        <label for="search_authors">Author(s): </label>
+        <input id="search_authors" type="text" name="authors_field" placeholder="Enter author(s) (format: name, name, etc...)">
+        <label for="search_ISBN">ISBN: </label>
+        <input id="search_ISBN" type="text" name="ISBN_field" placeholder="Enter ISBN">
+        <label for="search_JSON">JSON: </label>
+        <input id="search_JSON" type="text" name="JSON_field" placeholder="Enter JSON data">
+        <input type="submit" value="Submit">
+    </form>
 {% endblock %}

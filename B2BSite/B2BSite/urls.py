@@ -23,6 +23,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('B2B/', include('B2B.urls')),
+    path('', RedirectView.as_view(url='B2B/', permanent=True)),
 ]
 
 #add paths from the B2B application
