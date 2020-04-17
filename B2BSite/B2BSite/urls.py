@@ -15,9 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-#for redirect:
 from django.views.generic import RedirectView
-#for static files:
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -25,16 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('B2B/', include('B2B.urls')),
     path('', RedirectView.as_view(url='B2B/', permanent=True)),
-]
-
-#add paths from the B2B application
-urlpatterns += [
-    path('B2B/', include('B2B.urls')),
-]
-
-#redirect root URL to B2B
-urlpatterns += [
-    path('', RedirectView.as_view(url='B2B/', permanent=True)),
+    path('B2B/admin/', RedirectView.as_view(url='admin/', permanent=True)), #otherwise we can't give logged-in admins a direct link to the django-admin site
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 #allow static files such as css
