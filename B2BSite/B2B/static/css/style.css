@@ -1,47 +1,75 @@
 p {
-    color: black;
+    color:#1c2559;
+    font-weight: 600;
 }
 
-h3 {
-    margin-left: 10px;
-}
-
-h4 {
-    margin-left: 10px;
+h2 {
+    color:#1c2559;
+    font-weight: 600;
 }
 
  /* unvisited link */
- a:link {
-    color: black;
+ .homelink:link {
+    color: white;
     text-decoration: none;
   }
   
   /* visited link */
-  a:visited {
-    color: black;
+  .homelink:visited {
+    color: white;
     text-decoration: none;
   }
   
   /* mouse over link */
-  a:hover {
-    color: black;
+  .homelink:hover {
+    color: white;
     text-decoration: none;
   }
   
   /* selected link */
-  a:active {
-    color: black;
+  .homelink:active {
+    color: white;
     text-decoration: none;
   } 
 
-#header {
+.header {
     background-color: #1c2559;
     color:#ffffff;
     padding-left: 30px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-right: 30px;
     margin-bottom:10px;
     text-align: left;
+    height: 100px;
+    display: inline-block;
+    width: 100%;
+}
+
+.menu {
+    list-style-type: none;
+  }
+
+.headertext {
+    float:left;
+    text-align: middle;
+    height:100%;
+    vertical-align: middle;
+    line-height: 100px;
+}
+
+.menubutton {
+    color: white;
+    border: none;
+    height: 60px;
+    margin-top:20px;
+    margin-bottom: 20px;
+    float: right;
+    margin-left: 20px;
+    margin-right: 20px;
+    line-height: 60px;
+}
+
+.menubutton:hover {
+    border-bottom: 5px solid #f04822;
 }
 
 #line{
@@ -78,4 +106,38 @@ div.spread span:first-child {
 }
 div.spread span:last-child {
     text-align: right;
+}
+
+.searchbox {
+    border: 2px solid #f04822;
+    width: 75%;
+}
+
+.searchlabel {
+    color: #1c2559;
+    font-weight: 600;
+}
+
+.button {
+    color: white;
+    background-color: #f04822;
+    border: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.button:hover {
+    background-color: #b53619;
+}
+
+.searchform {
+    width: 50%;
+    padding-left: 20px;
+}
+
+.col-sm-10 {
+    margin-left: 30px;
+    margin-right: 30px;
 }
