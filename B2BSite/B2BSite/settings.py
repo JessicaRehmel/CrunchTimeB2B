@@ -55,7 +55,9 @@ ROOT_URLCONF = 'B2BSite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Chicago'
 
 USE_I18N = True
 
@@ -119,3 +121,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#redirect to home URL after login (default would redirect to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
+
+#FOR TESTING PURPOSES ONLY
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

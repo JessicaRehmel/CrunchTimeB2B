@@ -3,9 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('results/', views.results, name='results'),
-    #path('book_detail/<slug:book_id>/', views.view_book_detail, name='view_book_detail'),
-    #path('search/', SearchResultsView.as_view(), name='search'),
-    #path('submit_onix/', views.submit_onix, name='submit_onix'),
-    #path('process_onix/', views.process_onix, name='process_onix'),
+    path('results/', views.results, name='results'), #parses either the datafields or the JSON blob (throws an error if both or neither is given) and shows the results
+    #path('book_detail/<slug:book_id>/', views.view_book_detail, name='view_book_detail'), #shows the comparison % and details on a given book???
+    #path('reporting'/, views.view_company_reports, name='view_company_reports'), #shows the reporting data for the company according to who is viewing the page
 ]
