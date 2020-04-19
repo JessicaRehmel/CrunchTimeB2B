@@ -3,6 +3,10 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from .models import Company, Person
+
 import requests
 # Create your views here.
 
@@ -33,11 +37,17 @@ def book_detail(request):
     }
     return render(request, 'book_detail.html', context = context)
 
-@login_required
-def company_detail(request):
-    #all_books = Book.objects.all().order_by('title')
+class CompanyDetail(LoginRequiredMixin, generic.ListView):
+    """Generic class-based view listing companies, their users, and their search counts"""
+    model = Company
+    template_name = 'company_detail.html'
+    paginate_by = 3
 
-    context = {
-        #'all_books': all_books,
-    }
-    return render(request, 'company_detail.html', context = context)
+    def get_queryset(self):
+        u = self.request.user
+
+        if u.is_staff:
+            return Company.objects.order_by('company_name')
+        elif u.person is not None:
+            return Company.objects.filter(pk=u.person.company).order_by('company_name')
+        else: return None
