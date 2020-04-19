@@ -49,5 +49,5 @@ class CompanyDetail(LoginRequiredMixin, generic.ListView):
         if u.is_staff:
             return Company.objects.order_by('company_name')
         elif u.person is not None:
-            return Company.objects.filter(pk=u.person.company).order_by('company_name')
+            return Company.objects.filter(company_name=u.person.company).order_by('company_name')
         else: return None
