@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 import requests
+import checkmate
 # Create your views here.
 
 def index(request):
