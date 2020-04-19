@@ -2,9 +2,13 @@
 
 {% block content %}
     <h1>Results</h1>
-    <h3>{{ book_title }}</h3>
-    <h3>{{ book_authors }}</h3>
-    <h3>{{ book_ISBN }}</h3>
-    <h3>{{ book_match_percentage }}</h3>
-    
+    <!--testing currently, will be changed later-->
+    <a href = "{% url 'book_detail' %}">
+        <div>
+            <h3>{{ book_title }}</h3>
+            <h3>{{ book_authors }}</h3>
+            <h3>{{ book_ISBN }}</h3>
+            <h3>{{ book_match_percentage }}</h3>
+        </div>
+    </a>
 {% endblock %}

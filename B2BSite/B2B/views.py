@@ -32,28 +32,28 @@ def results(request):
 
 
 def book_detail(request):
-    #book_title = "stuff"
-    #book_subtitle = "lesser stuff"
-    #book_series = "even lesser stuff"
-    #book_volume = "a number"
-    #book_authors = "a list of stuff"
-    #book_format = "fancy stuff"
-    #book_ISBN = "a long number"
-    #book_url = "complex stuff"
-    #book_match_percentage = "a fancy number"
-    #book_description = "dear lord the text"
+    book_title = "stuff"
+    book_subtitle = "lesser stuff"
+    book_series = "even lesser stuff"
+    book_volume = "a number"
+    book_authors = "a list of stuff"
+    book_format = "fancy stuff"
+    book_ISBN = "a long number"
+    book_url = "complex stuff"
+    book_match_percentage = "a fancy number"
+    book_description = "dear lord the text"
 
     context = {
-        #'book_title': book_title,
-        #'book_subtitle': book_subtitle,
-        #'book_series': book_series,
-        #'book_volume': book_volume,
-        #'book_authors': book_authors,
-        #'book_format': book_format,
-        #'book_ISBN': book_ISBN,
-        #'book_url': book_url,
-        #'book_match_percentage': book_match_percentage,
-        #'book_description': book_description,
+        'book_title': book_title,
+        'book_subtitle': book_subtitle,
+        'book_series': book_series,
+        'book_volume': book_volume,
+        'book_authors': book_authors,
+        'book_format': book_format,
+        'book_ISBN': book_ISBN,
+        'book_url': book_url,
+        'book_match_percentage': book_match_percentage,
+        'book_description': book_description,
     }
     return render(request, 'book_detail.html', context = context)
 
