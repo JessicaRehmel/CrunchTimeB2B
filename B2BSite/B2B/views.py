@@ -30,7 +30,7 @@ def book_detail(request):
     context = {
         #'all_books': all_books,
     }
-    return render(request, 'results.html', context = context)
+    return render(request, 'book_detail.html', context = context)
 
 
 def company_detail(request):
@@ -39,4 +39,4 @@ def company_detail(request):
     context = {
         #'all_books': all_books,
     }
-    return render(request, 'results.html', context = context)
+    return render(request, 'company_detail.html', context = context)

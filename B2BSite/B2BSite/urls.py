@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('B2B/', include('B2B.urls')),
     path('', RedirectView.as_view(url='B2B/', permanent=True)),
-    path('B2B/admin/', RedirectView.as_view(url='admin/', permanent=True)), #otherwise we can't give logged-in admins a direct link to the django-admin site
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 

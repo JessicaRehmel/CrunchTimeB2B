@@ -16,8 +16,9 @@
             <h1 class = headertext>Business <img src= "{% static 'two.png' %}" alt="logo" /> Business</h1>
         </a>
         <ul class = menu>
-            <li class = "menubutton"><a href = "{% url 'index' %}" class = "homelink">TEST</a></li>
-            <li class = "menubutton"><a href = "{% url 'results' %}" class = "homelink">RESULTS</a></li>
+            <li class = "menubutton"><a href = "{% url 'index' %}" class = "homelink">HOME</a></li>
+            <li class = "menubutton"><a href = "{% url 'company_detail' %}" class = "homelink">COMPANY DETAILS</a></li>
+            <li class = "menubutton"><a href = "{% url 'admin' %}" class = "homelink">ADMIN</a></li>
         </ul>
     </div>
     <div class="col-sm-10 ">{% block content %}{% endblock %}</div>
