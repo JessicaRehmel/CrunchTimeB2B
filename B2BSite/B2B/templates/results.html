@@ -2,4 +2,81 @@
 
 {% block content %}
     <h1>Results</h1>
+
+    {% if KB_toggle %}
+        <h3>Kobo Results</h3>
+        {% for book in KB_list %}
+            <a href = "{% url 'book_detail' %}">
+                <div>
+                    <p>Title: {{ book.0 }}</p>
+                    <p>Authors: 
+                    {% for x in book.1 %}
+                        {{ x }}, 
+                    {% endfor %}
+                    </p>
+                    <p>ISBN: {{ book.2 }} Match Percentage: {{ book.3 }}%</p>
+                    <br>
+                </div>
+            </a>
+        {% endfor %}
+    {% endif %}
+    <br>
+    <br>
+    {% if GB_toggle %}
+        <h3>Google Books Results</h3>
+        {% for book in GB_list %}
+            <a href = "{% url 'book_detail' %}">
+                <div>
+                    <p>Title: {{ book.0 }}</p>
+                    <p>Authors: 
+                    {% for x in book.1 %}
+                        {{ x }}, 
+                    {% endfor %}
+                    </p>
+                    <p>ISBN: {{ book.2 }} Match Percentage: {{ book.3 }}%</p>
+                    <br>
+                </div>
+            </a>
+        {% endfor %}
+    {% endif %}
+    <br>
+    <br>
+    {% if SC_toggle %}
+        <h3>Scribd Results</h3>
+        {% for book in SC_list %}
+            <a href = "{% url 'book_detail' %}">
+                <div>
+                    <p>Title: {{ book.0 }}</p>
+                    <p>Authors: 
+                    {% for x in book.1 %}
+                        {{ x }}, 
+                    {% endfor %}
+                    </p>
+                    <p>ISBN: {{ book.2 }} Match Percentage: {{ book.3 }}%</p>
+                    <br>
+                </div>
+            </a>
+        {% endfor %}
+    {% endif %}
+    <br>
+    <br>
+    {% if LC_toggle %}
+        <h3>Livraria Cultura Results</h3>
+        {% for book in LC_list %}
+            <a href = "{% url 'book_detail' %}">
+                <div>
+                    <p>Title: {{ book.0 }}</p>
+                    <p>Authors: 
+                    {% for x in book.1 %}
+                        {{ x }}, 
+                    {% endfor %}
+                    </p>
+                    <p>ISBN: {{ book.2 }} Match Percentage: {{ book.3 }}%</p>
+                    <br>
+                </div>
+            </a>
+        {% endfor %}
+    {% endif %}
+    
+
 {% endblock %}
