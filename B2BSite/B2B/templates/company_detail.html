@@ -1,5 +1,27 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Company Report</h1>
+    <h2>Company Report</h2>
+    {% if company_list %}
+    <ul>
+        {% for c in company_list %}
+        <li>
+            <h4>{{c.company_name}}</h4>
+            <p>Total Searches: {{ c.get_total_searches }}</p>
+            {% if c.person_set.all %}
+            <p>Searches by User:</p>
+            <ul>
+                {% for p in c.person_set.all %}
+                <li>
+                    {{p.user.first_name}} {{p.user.last_name}} : {{p.search_count}}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>There is no data to display.</p>
+    {% endif %}
 {% endblock %}

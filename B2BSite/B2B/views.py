@@ -2,18 +2,23 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from .models import Company, Person
+
 import requests
 # Create your views here.
 
+@login_required
 def index(request):
-    #all_books = Book.objects.all().order_by('title')
 
     context = {
-        #'all_books': all_books,
+
     }
     return render(request, 'index.html', context = context)
 
-    
+@login_required
 def results(request):
     book_title = "stuff"
     book_authors = "list of stuff"
@@ -47,7 +52,7 @@ def results(request):
     }
     return render(request, 'results.html', context = context)
 
-
+@login_required
 def book_detail(request):
     book_title = "stuff"
     book_subtitle = "lesser stuff"
@@ -74,11 +79,17 @@ def book_detail(request):
     }
     return render(request, 'book_detail.html', context = context)
 
+class CompanyDetail(LoginRequiredMixin, generic.ListView):
+    """Generic class-based view listing companies, their users, and their search counts"""
+    model = Company
+    template_name = 'company_detail.html'
+    paginate_by = 3
 
-def company_detail(request):
-    #all_books = Book.objects.all().order_by('title')
+    def get_queryset(self):
+        u = self.request.user
 
-    context = {
-        #'all_books': all_books,
-    }
-    return render(request, 'results.html', context = context)
+        if u.is_staff:
+            return Company.objects.order_by('company_name')
+        elif u.person is not None:
+            return Company.objects.filter(company_name=u.person.company).order_by('company_name')
+        else: return None
