@@ -21,12 +21,29 @@ def results(request):
     book_match_percentage = "a fancy number"
     #book_JSON = "dear lord the text"
 
+    KB_toggle = True
+    KB_list = [["a title", ["maybe authors list", "a second auth"], "dat number yo", "dat fancy number yo"], ["a title2", ["maybe authors list2"], "dat number yo2", "dat fancy number yo2"]]
+    GB_toggle = False
+    GB_list = []
+    LC_toggle = False
+    LC_list = []
+    SC_toggle = False
+    SC_list = []
+
     context = {
         'book_title': book_title,
         'book_authors': book_authors,
         'book_ISBN': book_ISBN,
         'book_match_percentage': book_match_percentage,
         #'book_JSON': book_JSON,
+        'KB_toggle': KB_toggle,
+        'KB_list': KB_list,
+        'GB_toggle': GB_toggle,
+        'GB_list': GB_list,
+        'LC_toggle': LC_toggle,
+        'LC_list': LC_list,
+        'SC_toggle': SC_toggle,
+        'SC_list': SC_list,
     }
     return render(request, 'results.html', context = context)
 
