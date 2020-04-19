@@ -55,7 +55,7 @@ def book_detail(request):
         #'book_match_percentage': book_match_percentage,
         #'book_description': book_description,
     }
-    return render(request, 'results.html', context = context)
+    return render(request, 'book_detail.html', context = context)
 
 
 def company_detail(request):
