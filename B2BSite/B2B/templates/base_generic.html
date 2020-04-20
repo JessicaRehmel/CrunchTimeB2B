@@ -19,7 +19,7 @@
             {% if user.is_authenticated %}
             <li class = "menubutton"><a href = "{% url 'logout' %}" class = "homelink">LOG OUT</a></li>
             {% if user.is_staff %}            
-            <li class = "menubutton"><a href = "{% url 'admin' %}" class = "homelink">ADMIN</a></li>
+            <li class = "menubutton"><a href = "{% url 'admin:index' %}" class = "homelink">ADMIN</a></li>
             {% endif %}
             <li class = "menubutton"><a href = "{% url 'company_detail' %}" class = "homelink">COMPANY DETAILS</a></li>
             <li class = "menubutton"><a href = "{% url 'index' %}" class = "homelink">HOME</a></li>
