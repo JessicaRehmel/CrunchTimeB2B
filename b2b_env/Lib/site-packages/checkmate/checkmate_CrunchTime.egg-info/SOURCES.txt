@@ -1,0 +1,6 @@
+README.md
+setup.py
+checkmate_CrunchTime.egg-info/PKG-INFO
+checkmate_CrunchTime.egg-info/SOURCES.txt
+checkmate_CrunchTime.egg-info/dependency_links.txt
+checkmate_CrunchTime.egg-info/top_level.txt

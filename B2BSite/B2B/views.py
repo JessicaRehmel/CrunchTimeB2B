@@ -4,13 +4,15 @@ from django.urls import reverse
 from django.views import generic
 import requests
 import sys
-sys.path.append('..\..\checkmate')
-print(sys.path)
+sys.path.append('.\..\checkmate')
 import checkmate
+#from .checkmate import *
 # Create your views here.
 
 def index(request):
     #all_books = Book.objects.all().order_by('title')
+
+    print(checkmate.get_book_site('lc').slug)
 
     context = {
         #'all_books': all_books,
