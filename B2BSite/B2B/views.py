@@ -8,10 +8,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Company, Person
 
 import requests
+import sys
+sys.path.append('.\..\checkmate')
+import checkmate
+#from .checkmate import *
 # Create your views here.
 
 @login_required
 def index(request):
+
+    print(checkmate.get_book_site('lc').slug)
 
     context = {
 

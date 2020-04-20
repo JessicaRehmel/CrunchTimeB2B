@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: checkmate-CrunchTime
+Version: 0.0.1
+Summary: checkmate library
+Home-page: https://github.com/jme98/CrunchTimeCheckmate
+Author: Crunch Time
+Author-email: david.noble@eagles.oc.edu
+License: UNKNOWN
+Description: # includes
+        
+        Checkmate library for Draft 2 Digital
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: None
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7.4
+Description-Content-Type: text/markdown
