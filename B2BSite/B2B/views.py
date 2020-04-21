@@ -18,12 +18,12 @@ from checkmate import SiteBookData
 @login_required
 def home(request):
 
-    #print(checkmate.get_book_site('lc').slug)
-
     context = {
 
     }
     return render(request, 'home.html', context = context)
+
+    
 
 class Results(LoginRequiredMixin, generic.ListView):
     queryset = SiteBookData
@@ -31,9 +31,38 @@ class Results(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        user = self.request.user
+        company = user.person.company
+        if user.person != None:
+            user.person.search_count += 1
+            user.person.save()
 
         book_title = self.request.GET.get("title_field")
-        author_list = self.request.GET.get("author_field")
+        author_list = self.request.GET.get("authors_field")
+        book_ISBN = self.request.GET.get("ISBN_field")
+        #book_match_percentage = self.request.GET.get("isbn_field")
+        book_JSON = self.request.GET.get("JSON_field")
+        error_message = ''
+
+        #testing this
+        if book_JSON != '':
+            if book_title == '' and author_list == '' and book_ISBN == '':
+                print("1")
+                pass #searching with only JSON
+            else:
+                print("2")
+                context['error_message'] = "You must enter only JSON data OR title, author, and/or ISBN information into the search fields. Return Home to retry." #to home with must search by JSON only or not error
+                return context
+        else:
+            if book_title == '' and author_list == '' and book_ISBN == '':
+                print("3")
+                context['error_message'] = "Search fields were left blank. Please return to Home and enter search information." #to home with empty exception
+                return context
+            else:
+                print("4")
+                pass #search using only non-JSON
+        
+        
         book_authors = []
         temp = ""
         if author_list != None:
@@ -44,38 +73,52 @@ class Results(LoginRequiredMixin, generic.ListView):
                 else:
                     temp = temp + letter
             book_authors.append(temp)
-        book_ISBN = self.request.GET.get("ISBN_field")
-        #book_match_percentage = self.request.GET.get("isbn_field")
-        book_JSON = self.request.GET.get("JSON_field")
+        
 
         book_data = SiteBookData(book_ISBN, book_title, book_authors)
 
         #needs to come from active company
-        KB_toggle = True
-        KB_list = checkmate.get_book_site('kb').find_book_matches_at_site(book_data)
-        GB_toggle = False
-        GB_list = checkmate.get_book_site('gb').find_book_matches_at_site(book_data)
-        LC_toggle = True
-        LC_list = checkmate.get_book_site('lc').find_book_matches_at_site(book_data)
-        SD_toggle = False
-        SD_list = checkmate.get_book_site('sd').find_book_matches_at_site(book_data)
-        TB_toggle = False
-        TB_list = checkmate.get_book_site('tb').find_book_matches_at_site(book_data)
+        if company.wants_kb:
+            KB_list = checkmate.get_book_site('kb').find_book_matches_at_site(book_data)
+            if len(KB_list) > 10:
+                KB_list = KB_list[:10]
+            KB_list.sort(reverse=True,key = lambda x: x[1])  
+            context['KB_list'] = KB_list
+        if company.wants_gb:
+            GB_list = checkmate.get_book_site('gb').find_book_matches_at_site(book_data)
+            if len(GB_list) > 10:
+                GB_list = GB_list[:10]
+            GB_list.sort(reverse=True,key = lambda x: x[1])  
+            context['GB_list'] = GB_list
+        if company.wants_lc:
+            LC_list = checkmate.get_book_site('lc').find_book_matches_at_site(book_data)
+            if len(LC_list) > 10:
+                LC_list = LC_list[:10]
+            LC_list.sort(reverse=True,key = lambda x: x[1])  
+            context['LC_list'] = LC_list
+        if company.wants_sd:
+            SD_list = checkmate.get_book_site('sd').find_book_matches_at_site(book_data)
+            if len(SD_list) > 10:
+                SD_list = SD_list[:10]
+            SD_list.sort(reverse=True,key = lambda x: x[1])  
+            context['SD_list'] = SD_list
+        if company.wants_tb:
+            TB_list = checkmate.get_book_site('tb').find_book_matches_at_site(book_data)
+            if len(TB_list) > 10:
+                TB_list = TB_list[:10]
+            TB_list.sort(reverse=True,key = lambda x: x[1])  
+            context['TB_list'] = TB_list
 
+        
         context['book_title'] = book_title
         context['book_authors'] = book_authors
         context['book_ISBN'] = book_ISBN
         context['book_JSON'] = book_JSON
-        context['KB_toggle'] = KB_toggle
-        context['KB_list'] = KB_list
-        context['GB_toggle'] = GB_toggle
-        context['GB_list'] = GB_list
-        context['LC_toggle'] = LC_toggle
-        context['LC_list'] = LC_list
-        context['SD_toggle'] = SD_toggle
-        context['SD_list'] = SD_list
-        context['TB_toggle'] = TB_toggle
-        context['TB_list'] = TB_list
+        context['KB_toggle'] = company.wants_kb
+        context['GB_toggle'] = company.wants_gb
+        context['LC_toggle'] = company.wants_lc
+        context['SD_toggle'] = company.wants_sd
+        context['TB_toggle'] = company.wants_tb
         return context
 
 @login_required

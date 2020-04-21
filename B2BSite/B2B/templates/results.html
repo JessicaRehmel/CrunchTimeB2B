@@ -2,110 +2,136 @@
 
 {% block content %}
     <h1>Results</h1>
+    {% if error_message != ''%}
+        <h4>{{ error_message }}</h4>
+    {% else %}
 
     {% if KB_toggle %}
         <h3>Kobo Results</h3>
         <div id = line></div>
-        {% for book, grade in KB_list %}
-            <a href = "{% url 'book_detail' %}" class = resultlink>
-                <div class = result>
-                    <p>Title: {{ book.title }}</p>
-                    <p>Authors: 
-                    {% for x in book.authors %}
-                        {{ x }}, 
-                    {% endfor %}
-                    </p>
-                    <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                    <br>
-                </div>
-            </a>
-            <div id = "line"></div>
-        {% endfor %}
+        {% if KB_list %}
+            {% for book, grade in KB_list %}
+                <a href = "{% url 'book_detail' %}" class = resultlink>
+                    <div class = result>
+                        <p>Title: {{ book.title }}</p>
+                        <p>Authors: 
+                        {% for x in book.authors %}
+                            {{ x }}, 
+                        {% endfor %}
+                        </p>
+                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
+                        <br>
+                    </div>
+                </a>
+                <div id = "line"></div>
+            {% endfor %}
+        {% else %}
+            <h5>No results found</h5>
+        {% endif %}
+        <br>
+        <br>
     {% endif %}
-    <br>
-    <br>
+    
     {% if GB_toggle %}
         <h3>Google Books Results</h3>
         <div id = line></div>
-        {% for book, grade in GB_list %}
-            <a href = "{% url 'book_detail' %}" class = resultlink>
-                <div class = result>
-                    <p>Title: {{ book.title }}</p>
-                    <p>Authors: 
-                    {% for x in book.authors %}
-                        {{ x }}, 
-                    {% endfor %}
-                    </p>
-                    <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                    <br>
-                </div>
-            </a>
-            <div id = "line"></div>
-        {% endfor %}
+        {% if GB_list %}
+            {% for book, grade in GB_list %}
+                <a href = "{% url 'book_detail' %}" class = resultlink>
+                    <div class = result>
+                        <p>Title: {{ book.title }}</p>
+                        <p>Authors: 
+                        {% for x in book.authors %}
+                            {{ x }}, 
+                        {% endfor %}
+                        </p>
+                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
+                        <br>
+                    </div>
+                </a>
+                <div id = "line"></div>
+            {% endfor %}
+        {% else %}
+            <h5>No results found</h5>
+        {% endif %}
+        <br>
+        <br>
     {% endif %}
-    <br>
-    <br>
+
     {% if SD_toggle %}
         <h3>Scribd Results</h3>
         <div id = line></div>
-        {% for book, grade in SD_list %}
-            <a href = "{% url 'book_detail' %}" class = resultlink>
-                <div class = result>
-                    <p>Title: {{ book.title }}</p>
-                    <p>Authors: 
-                    {% for x in book.authors %}
-                        {{ x }}, 
-                    {% endfor %}
-                    </p>
-                    <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                    <br>
-                </div>
-            </a>
-            <div id = "line"></div>
-        {% endfor %}
+        {% if SD_list %}
+            {% for book, grade in SD_list %}
+                <a href = "{% url 'book_detail' %}" class = resultlink>
+                    <div class = result>
+                        <p>Title: {{ book.title }}</p>
+                        <p>Authors: 
+                        {% for x in book.authors %}
+                            {{ x }}, 
+                        {% endfor %}
+                        </p>
+                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
+                        <br>
+                    </div>
+                </a>
+                <div id = "line"></div>
+            {% endfor %}
+        {% else %}
+            <h5>No results found</h5>
+        {% endif %}
+        <br>
+        <br>
     {% endif %}
-    <br>
-    <br>
+
     {% if LC_toggle %}
         <h3>Livraria Cultura Results</h3>
         <div id = line></div>
-        {% for book, grade in LC_list %}
-            <a href = "{% url 'book_detail' %}" class = resultlink>
-                <div class = result>
-                    <p>Title: {{ book.title }}</p>
-                    <p>Authors: 
-                    {% for x in book.authors %}
-                        {{ x }}, 
-                    {% endfor %}
-                    </p>
-                    <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                    <br>
-                </div>
-            </a>
-            <div id = "line"></div>
-        {% endfor %}
+        {% if LC_list %}
+            {% for book, grade in LC_list %}
+                <a href = "{% url 'book_detail' %}" class = resultlink>
+                    <div class = result>
+                        <p>Title: {{ book.title }}</p>
+                        <p>Authors: 
+                        {% for x in book.authors %}
+                            {{ x }}, 
+                        {% endfor %}
+                        </p>
+                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
+                        <br>
+                    </div>
+                </a>
+                <div id = "line"></div>
+            {% endfor %}
+        {% else %}
+            <h5>No results found</h5>
+        {% endif %}
+        <br>
+        <br>
     {% endif %}
 
-    <br>
-    <br>
     {% if TB_toggle %}
         <h3>TestBookStore Results</h3>
         <div id = line></div>
-        {% for book, grade in TB_list %}
-            <a href = "{% url 'book_detail' %}" class = resultlink>
-                <div class = result>
-                    <p>Title: {{ book.title }}</p>
-                    <p>Authors: 
-                    {% for x in book.authors %}
-                        {{ x }}, 
-                    {% endfor %}
-                    </p>
-                    <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                    <br>
-                </div>
-            </a>
-            <div id = "line"></div>
-        {% endfor %}
+        {% if TB_list %}
+            {% for book, grade in TB_list %}
+                <a href = "{% url 'book_detail' %}" class = resultlink>
+                    <div class = result>
+                        <p>Title: {{ book.title }}</p>
+                        <p>Authors: 
+                        {% for x in book.authors %}
+                            {{ x }}, 
+                        {% endfor %}
+                        </p>
+                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
+                        <br>
+                    </div>
+                </a>
+                <div id = "line"></div>
+            {% endfor %}
+        {% else %}
+            <h5>No results found</h4>
+        {% endif %}
     {% endif %}
     
 
