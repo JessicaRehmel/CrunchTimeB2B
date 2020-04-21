@@ -16,7 +16,3 @@ def get_book_site(slug):
         return GoogleBooks()
     elif slug == 'tb':
         return TestBook()
-
-if __name__ == "__main__":
-    print("Executing as main program")
-    print("Value of __name__ is: ", __name__)

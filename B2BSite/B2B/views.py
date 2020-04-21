@@ -11,52 +11,69 @@ import requests
 import sys
 sys.path.append('.\..\checkmate')
 import checkmate
+from checkmate import SiteBookData
 #from .checkmate import *
 # Create your views here.
 
 @login_required
 def index(request):
 
-    print(checkmate.get_book_site('lc').slug)
+    #print(checkmate.get_book_site('lc').slug)
 
     context = {
 
     }
     return render(request, 'index.html', context = context)
 
-@login_required
-def results(request):
-    book_title = "stuff"
-    book_authors = "list of stuff"
-    book_ISBN = "a long number"
-    book_match_percentage = "a fancy number"
-    #book_JSON = "dear lord the text"
+class Results(LoginRequiredMixin, generic.ListView):
+    queryset = SiteBookData
+    template_name = 'results.html'
 
-    KB_toggle = True
-    KB_list = [["a title", ["maybe authors list", "a second auth"], "dat number yo", "dat fancy number yo"], ["a title2", ["maybe authors list2"], "dat number yo2", "dat fancy number yo2"]]
-    GB_toggle = False
-    GB_list = []
-    LC_toggle = False
-    LC_list = []
-    SC_toggle = False
-    SC_list = []
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
-    context = {
-        'book_title': book_title,
-        'book_authors': book_authors,
-        'book_ISBN': book_ISBN,
-        'book_match_percentage': book_match_percentage,
-        #'book_JSON': book_JSON,
-        'KB_toggle': KB_toggle,
-        'KB_list': KB_list,
-        'GB_toggle': GB_toggle,
-        'GB_list': GB_list,
-        'LC_toggle': LC_toggle,
-        'LC_list': LC_list,
-        'SC_toggle': SC_toggle,
-        'SC_list': SC_list,
-    }
-    return render(request, 'results.html', context = context)
+        book_title = self.request.GET.get("title_field")
+        author_list = self.request.GET.get("author_field")
+        book_authors = []
+        temp = ""
+        if author_list != None:
+            for letter in author_list:
+                if letter == ",":
+                    book_authors.append(temp)
+                    temp = ""
+                else:
+                    temp = temp + letter
+            book_authors.append(temp)
+        book_ISBN = self.request.GET.get("ISBN_field")
+        #book_match_percentage = self.request.GET.get("isbn_field")
+        book_JSON = self.request.GET.get("JSON_field")
+
+        book_data = SiteBookData(book_ISBN, book_title, book_authors)
+
+        #needs to come from active company
+        KB_toggle = True
+        #KB_list = [["a title", ["maybe authors list", "a second auth"], "dat number yo", "dat fancy number yo"], ["a title2", ["maybe authors list2"], "dat number yo2", "dat fancy number yo2"]]
+        KB_list = checkmate.get_book_site('kb').find_book_matches_at_site(book_data)
+        GB_toggle = False
+        GB_list = []
+        LC_toggle = False
+        LC_list = []
+        SC_toggle = False
+        SC_list = []
+
+        context['book_title'] = book_title
+        context['book_authors'] = book_authors
+        context['book_ISBN'] = book_ISBN
+        context['book_JSON'] = book_JSON
+        context['KB_toggle'] = KB_toggle
+        context['KB_list'] = KB_list
+        context['GB_toggle'] = GB_toggle
+        context['GB_list'] = GB_list
+        context['LC_toggle'] = LC_toggle
+        context['LC_list'] = LC_list
+        context['SC_toggle'] = SC_toggle
+        context['SC_list'] = SC_list
+        return context
 
 @login_required
 def book_detail(request):
