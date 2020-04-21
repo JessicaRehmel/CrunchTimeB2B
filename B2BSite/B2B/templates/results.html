@@ -1,10 +1,14 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Results</h1>
-    {% if error_message != ''%}
+    <h2>Results for {{ search_terms }}</h2>
+    {% if error_message %}
         <h4 style="color:red">{{ error_message }}</h4>
     {% else %}
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         {% if KB_toggle %}
             <h3>Kobo Results</h3>
             <div id = "line"></div>
@@ -181,7 +185,12 @@
             {% else %}
                 <h5>No results found</h4>
             {% endif %}
+<<<<<<< HEAD
         
+=======
+            <br>
+            <br>
+>>>>>>> master
         {% endif %}
     {% endif %}
 
