@@ -16,14 +16,14 @@ from checkmate import SiteBookData
 # Create your views here.
 
 @login_required
-def index(request):
+def home(request):
 
     #print(checkmate.get_book_site('lc').slug)
 
     context = {
 
     }
-    return render(request, 'index.html', context = context)
+    return render(request, 'home.html', context = context)
 
 class Results(LoginRequiredMixin, generic.ListView):
     queryset = SiteBookData
@@ -52,14 +52,15 @@ class Results(LoginRequiredMixin, generic.ListView):
 
         #needs to come from active company
         KB_toggle = True
-        #KB_list = [["a title", ["maybe authors list", "a second auth"], "dat number yo", "dat fancy number yo"], ["a title2", ["maybe authors list2"], "dat number yo2", "dat fancy number yo2"]]
         KB_list = checkmate.get_book_site('kb').find_book_matches_at_site(book_data)
         GB_toggle = False
-        GB_list = []
-        LC_toggle = False
-        LC_list = []
-        SC_toggle = False
-        SC_list = []
+        GB_list = checkmate.get_book_site('gb').find_book_matches_at_site(book_data)
+        LC_toggle = True
+        LC_list = checkmate.get_book_site('lc').find_book_matches_at_site(book_data)
+        SD_toggle = False
+        SD_list = checkmate.get_book_site('sd').find_book_matches_at_site(book_data)
+        TB_toggle = False
+        TB_list = checkmate.get_book_site('tb').find_book_matches_at_site(book_data)
 
         context['book_title'] = book_title
         context['book_authors'] = book_authors
@@ -71,8 +72,10 @@ class Results(LoginRequiredMixin, generic.ListView):
         context['GB_list'] = GB_list
         context['LC_toggle'] = LC_toggle
         context['LC_list'] = LC_list
-        context['SC_toggle'] = SC_toggle
-        context['SC_list'] = SC_list
+        context['SD_toggle'] = SD_toggle
+        context['SD_list'] = SD_list
+        context['TB_toggle'] = TB_toggle
+        context['TB_list'] = TB_list
         return context
 
 @login_required
