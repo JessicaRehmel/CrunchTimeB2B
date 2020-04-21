@@ -5,6 +5,7 @@ BookSites are referenced as follows:
    gb = Google Books
    lc = LivrariaCultura
    sd = Scribd
+   ab = Audiobooks.com
 """
 
 import string
@@ -25,17 +26,10 @@ class SiteBookData:
     url = "" # final, direct URL to the book page
     page_content = "" #html content of the parsed page
     ready_for_sale = False # boolean; is this book currently purchasable at this site?
-    extra = {} # dictionary of any other relevant data provided by the BookSite
+    extras = {} # dictionary of any other relevant data provided by the BookSite
 
-    def __init__(self, isbn = '', title = '', authors = []):
-        if len(isbn) == 10:
-            nine_digits = isbn[0:9] #slice off the old check digit
-            final_isbn = "978"
-            final_isbn += nine_digits
-            final_isbn += self._calc_check_digit(final_isbn)
-            self.isbn_13 = final_isbn
-        else:
-            self.isbn_13 = isbn
+    def __init__(self, isbn_13="", title="", authors=[]):
+        self.isbn_13 = isbn_13
         self.title = title
         self.authors = authors
 
@@ -61,49 +55,13 @@ class SiteBookData:
         mystr += "Site Slug: " + self.site_slug + "\n"
         mystr += "URL: " + self.url + "\n"
         mystr += "RFS: " + str(self.ready_for_sale) + "\n"
-        mystr += "Parse Status: " + self.parse_status + "\n\n\n"
+        mystr += "Parse Status: " + self.parse_status + "\n"
+        mystr += "Extras:\n"
+        for extra, value in self.extras.items():
+            mystr += "    " + extra + ": " + str(value) + "\n"
+        mystr += "\n\n"
         print(mystr)
         try:
             self.book_image.show()
         except:
             print("No cover image available.")
-
-    def _calc_check_digit(self, isbn_string):
-        products = []
-        for i in range(0, 12):
-            if ((i + 1) % 2) != 0: #we are looking at the first, third, fifth ... digit
-                products[i] = isbn_string[i] * 1
-            else: #we are looking at the second, fourth, sixth ... digit
-                products[i] = isbn_string[i] * 3
-
-        accumulator = 0
-        for p in products:
-            accumulator += p
-
-        modulated = accumulator % 10
-
-        if modulated == 0:
-            check_digit = modulated
-        else:
-            check_digit = 10 - modulated
-
-        return check_digit
-
-'''
-get_book_site(slug)
-# type: (str) -> BookSite
-"""Given a booksite slug, return a BookSite object corresponding to the slug"""
-
-book_site.get_book_data_from_site(url)
-# type: (str) -> SiteBookData
-"""Given a direct link to a book page at a site, parse it and return the SiteBookData of the info"""
-
-book_site.find_book_matches_at_site(book_data)
-# type: (SiteBookData) -> List[Tuple[SiteBookData, float]]
-"""Given a SiteBookData, search for the book at the ‘book_site’ site and provide a list of likely matches paired with how good of a match it is (1.0 is an exact match).
-   This should take into account all the info we have about a book, including the cover."""
-
-book_site.convert_book_id_to_url(book_id)
-# type: (str) -> str
-"""Given a book_id, return the direct URL for the book."""
-'''

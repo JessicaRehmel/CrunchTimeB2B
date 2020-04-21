@@ -64,35 +64,91 @@ class BookSite:
                 value += 1/prop
         if baseline.title != "":
             prop *= 2
-            if baseline.title == match.title:
-                value += 1/prop
+            value += (1/prop) *self._evaluate_string_fields(baseline.title.lower(), match.title.lower())
         if baseline.authors != []:
             prop *= 2
-            if baseline.authors == match.authors:
-                value += 1/prop
+            value += (1/prop) * self._evaluate_author_names(baseline.authors, match.authors)
         if baseline.book_format != "":
             prop *= 2
             if baseline.book_format == match.book_format:
                 value += 1/prop
         if baseline.subtitle != "":
             prop *= 2
-            if baseline.subtitle == match.subtitle:
-                value += 1/prop
+            value += (1/prop) *  self._evaluate_string_fields(baseline.subtitle.lower(), match.subtitle.lower())
         if baseline.series != "":
             prop *= 2
-            if baseline.series == match.series:
-                value += 1/prop
+            value += (1/prop) * self._evaluate_string_fields(baseline.series.lower(), match.series.lower())
         if baseline.description != "":
             prop *= 2
-            if baseline.description == match.description:
-                value += 1/prop
+            value += (1/prop) * self._evaluate_string_fields(baseline.description, match.description)
         if baseline.book_image != None:
             prop *= 2
             if baseline.book_image == match.book_image:
                 value += 1/prop
         if value > 0:
             value += 1/prop
-        return value
+        return value * 100
+
+    def _evaluate_author_names(self, baseline, match):
+        try:
+            total = 0
+            for author in baseline:
+                current_best = 0
+                for author2 in match:
+                    result = self._compare_strings(author.lower(), author2.lower())
+                    if result > current_best:
+                        current_best = result
+                total += current_best
+            if len(baseline) > len(match):
+                return total / len(baseline)
+            else:
+                return total / len(match)
+        except:
+            return 0
+
+    def _compare_strings(self, baseline, match):
+        try:
+            author = baseline.split()
+            author2 = match.split()
+            for word in author:
+                word.strip(",.'")
+            for word in author2:
+                word.strip(",.'")
+            total = 0
+            for word in author:
+                current_best = 0
+                for word2 in author2:
+                    if word == word2:
+                        current_best = 1
+                total += current_best
+            if (len(author) > len(author2)):
+                return total / len(author)
+            else:
+                return total / len(match)
+        except:
+            return 0
+
+    def _evaluate_string_fields(self, baseline, match):
+        try:
+            value = 0
+            b = baseline.split()
+            m = match.split()
+            size = len(b)
+            if len(b) < len(m):
+                size = len(m)
+            for index in range(0, len(b)):
+                word = b[index]
+                if word in m:
+                    matches = [i for i, x in enumerate(m) if x == word]
+                    proximity = 0
+                    for same in matches:
+                        prox = (size - abs(index - same))
+                        if prox > proximity:
+                            proximity = prox
+                    value += proximity / size
+            return value / size
+        except:
+            return 0
 
     def convert_book_id_to_url(self, book_id):
         return self.base + book_id
@@ -150,19 +206,19 @@ class BookSite:
         elif len(isbn) == 10:
             nine_digits = isbn[0:9] #slice off the old check digit
             final_isbn = "978"
-            final_isbn += nine_digits
-            final_isbn += self._calc_check_digit(final_isbn)
+            final_isbn += (nine_digits)
+            final_isbn += str(self._calc_check_digit(final_isbn))
             return final_isbn
         else:
             return ""
-    
+
     def _calc_check_digit(self, isbn_string):
         products = []
         for i in range(0, 12):
             if ((i + 1) % 2) != 0: #we are looking at the first, third, fifth ... digit
-                products.append(str(isbn_string[i] * 1))
+                products.append(int(isbn_string[i]) * 1)
             else: #we are looking at the second, fourth, sixth ... digit
-                products.append(int(isbn_string[i] * 3))
+                products.append(int(isbn_string[i]) * 3)
 
         accumulator = 0
         for p in products:
