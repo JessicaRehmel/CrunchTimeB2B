@@ -23,7 +23,7 @@
             {% endif %}
             <li class = "menubutton"><a href = "{% url 'company_detail' %}" class = "homelink">COMPANY DETAILS</a></li>
             <li class = "menubutton"><a href = "{% url 'home' %}" class = "homelink">HOME</a></li>
-            <li class = "menubutton">Welcome, {{ user.get_username }}!</li>  
+            <li class = "welcomeadmin">Welcome, {{ user.get_username }}!</li>  
             {% endif %}            
         </ul>
     </div>
