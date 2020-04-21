@@ -16,15 +16,12 @@ from checkmate import SiteBookData
 # Create your views here.
 
 @login_required
-def home(request, form_exception=None):
+def home(request):
 
     #print(checkmate.get_book_site('lc').slug)
-    if form_exception == None:
-        exception_message = ''
-    else:
-        exception_message = form_exception
+    
     context = {
-        'exception_message': exception_message,
+
     }
     return render(request, 'home.html', context = context)
 
@@ -42,7 +39,7 @@ class Results(LoginRequiredMixin, generic.ListView):
         book_ISBN = self.request.GET.get("ISBN_field")
         #book_match_percentage = self.request.GET.get("isbn_field")
         book_JSON = self.request.GET.get("JSON_field")
-
+        error_message = ''
 
         #testing this
         if book_JSON != '':
@@ -51,11 +48,13 @@ class Results(LoginRequiredMixin, generic.ListView):
                 pass #searching with only JSON
             else:
                 print("2")
-                return home(self.request, "You must enter only JSON data OR title, author, and/or ISBN information") #to home with must search by JSON only or not error
+                context['error_message'] = "You must enter only JSON data OR title, author, and/or ISBN information into the search fields. Return Home to retry." #to home with must search by JSON only or not error
+                return context
         else:
             if book_title == '' and author_list == '' and book_ISBN == '':
                 print("3")
-                return home(self.request, "Please input information to be searched") #to home with empty exception
+                context['error_message'] = "Search fields were left blank. Please return to Home and enter search information." #to home with empty exception
+                return context
             else:
                 print("4")
                 pass #search using only non-JSON
@@ -87,6 +86,7 @@ class Results(LoginRequiredMixin, generic.ListView):
         TB_toggle = False
         TB_list = checkmate.get_book_site('tb').find_book_matches_at_site(book_data)
 
+        
         context['book_title'] = book_title
         context['book_authors'] = book_authors
         context['book_ISBN'] = book_ISBN
