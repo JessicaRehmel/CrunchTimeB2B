@@ -36,7 +36,7 @@ class Results(LoginRequiredMixin, generic.ListView):
             user.person.save()
 
         book_title = self.request.GET.get("title_field")
-        author_list = self.request.GET.get("author_field")
+        author_list = self.request.GET.get("authors_field")
         book_authors = []
         temp = ""
         if author_list != None:
