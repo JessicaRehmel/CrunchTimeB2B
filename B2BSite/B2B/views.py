@@ -16,32 +16,18 @@ from checkmate import SiteBookData
 # Create your views here.
 
 @login_required
-def index(request, form_exception=None):
+def home(request, form_exception=None):
 
     #print(checkmate.get_book_site('lc').slug)
-
-    context = {
-
-    }
-    return render(request, 'index.html', context = context)
-
-@login_required
-def check_form_data(request):
-    book_title = request.GET.get("title_field")
-    author_list = request.GET.get("author_field")
-    book_ISBN = request.GET.get("ISBN_field")
-    book_JSON = request.GET.get("JSON_field")
-    
-    if book_JSON != '':
-        if book_title == '' and author_list == '' and book_ISBN == '':
-            return #search with only JSON
-        else:
-            return #home(request, "JSON only or not") #to home with must search by JSON only or not error
+    if form_exception == None:
+        exception_message = ''
     else:
-        if book_title == '' and author_list == '' and book_ISBN == '':
-            return #to home with empty exception
-        else:
-            return #search using only non-JSON
+        exception_message = form_exception
+    context = {
+        'exception_message': exception_message,
+    }
+    return render(request, 'home.html', context = context)
+
     
 
 class Results(LoginRequiredMixin, generic.ListView):
@@ -50,9 +36,31 @@ class Results(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-
+        
         book_title = self.request.GET.get("title_field")
-        author_list = self.request.GET.get("author_field")
+        author_list = self.request.GET.get("authors_field")
+        book_ISBN = self.request.GET.get("ISBN_field")
+        #book_match_percentage = self.request.GET.get("isbn_field")
+        book_JSON = self.request.GET.get("JSON_field")
+
+
+        #testing this
+        if book_JSON != '':
+            if book_title == '' and author_list == '' and book_ISBN == '':
+                print("1")
+                pass #searching with only JSON
+            else:
+                print("2")
+                return home(self.request, "You must enter only JSON data OR title, author, and/or ISBN information") #to home with must search by JSON only or not error
+        else:
+            if book_title == '' and author_list == '' and book_ISBN == '':
+                print("3")
+                return home(self.request, "Please input information to be searched") #to home with empty exception
+            else:
+                print("4")
+                pass #search using only non-JSON
+        
+        
         book_authors = []
         temp = ""
         if author_list != None:
@@ -63,22 +71,21 @@ class Results(LoginRequiredMixin, generic.ListView):
                 else:
                     temp = temp + letter
             book_authors.append(temp)
-        book_ISBN = self.request.GET.get("ISBN_field")
-        #book_match_percentage = self.request.GET.get("isbn_field")
-        book_JSON = self.request.GET.get("JSON_field")
+        
 
         book_data = SiteBookData(book_ISBN, book_title, book_authors)
 
         #needs to come from active company
         KB_toggle = True
-        #KB_list = [["a title", ["maybe authors list", "a second auth"], "dat number yo", "dat fancy number yo"], ["a title2", ["maybe authors list2"], "dat number yo2", "dat fancy number yo2"]]
         KB_list = checkmate.get_book_site('kb').find_book_matches_at_site(book_data)
         GB_toggle = False
-        GB_list = []
-        LC_toggle = False
-        LC_list = []
+        GB_list = checkmate.get_book_site('gb').find_book_matches_at_site(book_data)
+        LC_toggle = True
+        LC_list = checkmate.get_book_site('lc').find_book_matches_at_site(book_data)
         SD_toggle = False
-        SD_list = []
+        SD_list = checkmate.get_book_site('sd').find_book_matches_at_site(book_data)
+        TB_toggle = False
+        TB_list = checkmate.get_book_site('tb').find_book_matches_at_site(book_data)
 
         context['book_title'] = book_title
         context['book_authors'] = book_authors
@@ -92,6 +99,8 @@ class Results(LoginRequiredMixin, generic.ListView):
         context['LC_list'] = LC_list
         context['SD_toggle'] = SD_toggle
         context['SD_list'] = SD_list
+        context['TB_toggle'] = TB_toggle
+        context['TB_list'] = TB_list
         return context
 
 @login_required

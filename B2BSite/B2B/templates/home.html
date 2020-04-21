@@ -2,7 +2,8 @@
 
 {% block content %}
     <h2>Search Form</h2>
-    <p>Fill out any number of the fields below and click "Submit" to search for your book.</p>
+    <p>Fill out the title, authors, and/or ISBN fields OR the JSON field and click "Submit" to search for your book.</p>
+    <h6>{{exception_message}}</h6>
     <div class="container">
         <form action = "{% url 'results' %}" method ="GET" class = "searchform">
             <label class = "searchlabel" for="search_title">Title: </label>
