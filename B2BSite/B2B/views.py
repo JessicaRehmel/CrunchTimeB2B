@@ -47,19 +47,15 @@ class Results(LoginRequiredMixin, generic.ListView):
         #testing this
         if book_JSON != '':
             if book_title == '' and author_list == '' and book_ISBN == '':
-                print("1")
                 pass #searching with only JSON
             else:
-                print("2")
                 context['error_message'] = "You must enter only JSON data OR title, author, and/or ISBN information into the search fields. Return Home to retry." #to home with must search by JSON only or not error
                 return context
         else:
             if book_title == '' and author_list == '' and book_ISBN == '':
-                print("3")
                 context['error_message'] = "Search fields were left blank. Please return to Home and enter search information." #to home with empty exception
                 return context
             else:
-                print("4")
                 pass #search using only non-JSON
         
         
