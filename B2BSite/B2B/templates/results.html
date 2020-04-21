@@ -5,175 +5,184 @@
     {% if error_message != ''%}
         <h4 style="color:red">{{ error_message }}</h4>
     {% else %}
-
-    {% if KB_toggle %}
-        <h3>Kobo Results</h3>
-        <div id = "line"></div>
-        {% if KB_list %}
-            {% for book, grade in KB_list %}
-                <div class = result>
-                    <div class = "resulttext">
-                        <a href = "{% url 'book_detail' %}" class = resultlink>
-                        <div>
-                            <p>Title: {{ book.title }}</p>
-                            <p>Authors: 
-                            {% for x in book.authors %}
-                                {{ x }}, 
-                            {% endfor %}
-                            </p>
-                            <p>ISBN: {{ book.isbn_13 }}</p>
-                            <p>Match Percentage: {{ grade }}%</p>
+        {% if KB_toggle %}
+            <h3>Kobo Results</h3>
+            <div id = "line"></div>
+            {% if KB_list %}
+                {% for book, grade in KB_list %}
+                    <div class = result>
+                        <div class = "resulttext">
+                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <div>
+                                <p>Title: {{ book.title }}</p>
+                                <p>Authors: 
+                                {% for x in book.authors %}
+                                    {{ x }}, 
+                                {% endfor %}
+                                </p>
+                                <p>ISBN: {{ book.isbn_13 }}</p>
+                                <p>Match Percentage: {{ grade }}%</p>
+                            </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                    <div class = resultimage>
-                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                        <div class = resultimage>
+                            <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                            <br>
+                            <a href = "{{ book.url }}">Click to visit site</a>
+                        </div> 
                         <br>
-                        <a href = "{{ book.url }}">Click to visit site</a>
-                    </div> 
-                    <br>
-                </div>
-                <div id = "line"></div>
-            {% endfor %}
-        {% else %}
-            <h5>No results found</h5>
+                    </div>
+                    <div id = "line"></div>
+                {% endfor %}
+            {% else %}
+                <h5>No results found</h5>
+            {% endif %}
+            <br>
+            <br>
         {% endif %}
-        <br>
-        <br>
-    {% endif %}
-    
-    {% if GB_toggle %}
-        <h3>Google Books Results</h3>
-        <div id = "line"></div>
-        {% if GB_list %}
-            {% for book, grade in GB_list %}
-                <div class = result>
-                    <div class = "resulttext">
-                        <a href = "{% url 'book_detail' %}" class = resultlink>
-                        <div>
-                            <p>Title: {{ book.title }}</p>
-                            <p>Authors: 
-                            {% for x in book.authors %}
-                                {{ x }}, 
-                            {% endfor %}
-                            </p>
-                            <p>ISBN: {{ book.isbn_13 }}</p>
-                            <p>Match Percentage: {{ grade }}%</p>
+        
+        {% if GB_toggle %}
+            <h3>Google Books Results</h3>
+            <div id = "line"></div>
+            {% if GB_list %}
+                {% for book, grade in GB_list %}
+                    <div class = result>
+                        <div class = "resulttext">
+                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <div>
+                                <p>Title: {{ book.title }}</p>
+                                <p>Authors: 
+                                {% for x in book.authors %}
+                                    {{ x }}, 
+                                {% endfor %}
+                                </p>
+                                <p>ISBN: {{ book.isbn_13 }}</p>
+                                <p>Match Percentage: {{ grade }}%</p>
+                            </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                    <div class = resultimage>
-                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                        <div class = resultimage>
+                            <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                            <br>
+                            <a href = "{{ book.url }}">Click to visit site</a>
+                        </div> 
                         <br>
-                        <a href = "{{ book.url }}">Click to visit site</a>
-                    </div> 
-                    <br>
-                </div>
-                <div id = "line"></div>
-            {% endfor %}
-        {% else %}
-            <h5>No results found</h5>
-        {% endif %}
-
-    {% if SD_toggle %}
-        <h3>Scribd Results</h3>
-        <div id = "line"></div>
-        {% if SD_list %}
-            {% for book, grade in SD_list %}
-                <div class = result>
-                    <div class = "resulttext">
-                        <a href = "{% url 'book_detail' %}" class = resultlink>
-                        <div>
-                            <p>Title: {{ book.title }}</p>
-                            <p>Authors: 
-                            {% for x in book.authors %}
-                                {{ x }}, 
-                            {% endfor %}
-                            </p>
-                            <p>ISBN: {{ book.isbn_13 }}</p>
-                            <p>Match Percentage: {{ grade }}%</p>
-                        </div>
-                        </a>
                     </div>
-                    <div class = resultimage>
-                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
-                        <br>
-                        <a href = "{{ book.url }}">Click to visit site</a>
-                    </div> 
-                    <br>
-                </div>
-                <div id = "line"></div>
-            {% endfor %}
-        {% else %}
-            <h5>No results found</h5>
+                    <div id = "line"></div>
+                {% endfor %}
+            {% else %}
+                <h5>No results found</h5>
+            {% endif %}
+            <br>
+            <br>
         {% endif %}
 
-    {% if LC_toggle %}
-        <h3>Livraria Cultura Results</h3>
-        <div id = "line"></div>
-        {% if LC_list %}
-            {% for book, grade in LC_list %}
-                <div class = result>
-                    <div class = "resulttext">
-                        <a href = "{% url 'book_detail' %}" class = resultlink>
-                        <div>
-                            <p>Title: {{ book.title }}</p>
-                            <p>Authors: 
-                            {% for x in book.authors %}
-                                {{ x }}, 
-                            {% endfor %}
-                            </p>
-                            <p>ISBN: {{ book.isbn_13 }}</p>
-                            <p>Match Percentage: {{ grade }}%</p>
+        {% if SD_toggle %}
+            <h3>Scribd Results</h3>
+            <div id = "line"></div>
+            {% if SD_list %}
+                {% for book, grade in SD_list %}
+                    <div class = result>
+                        <div class = "resulttext">
+                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <div>
+                                <p>Title: {{ book.title }}</p>
+                                <p>Authors: 
+                                {% for x in book.authors %}
+                                    {{ x }}, 
+                                {% endfor %}
+                                </p>
+                                <p>ISBN: {{ book.isbn_13 }}</p>
+                                <p>Match Percentage: {{ grade }}%</p>
+                            </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                    <div class = resultimage>
-                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                        <div class = resultimage>
+                            <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                            <br>
+                            <a href = "{{ book.url }}">Click to visit site</a>
+                        </div> 
                         <br>
-                        <a href = "{{ book.url }}">Click to visit site</a>
-                    </div> 
-                    <br>
-                </div>
-                <div id = "line"></div>
-            {% endfor %}
-        {% else %}
-            <h5>No results found</h5>
+                    </div>
+                    <div id = "line"></div>
+                {% endfor %}
+            {% else %}
+                <h5>No results found</h5>
+            {% endif %}
+            <br>
+            <br>
         {% endif %}
 
-    {% if TB_toggle %}
-        <h3>TestBookStore Results</h3>
-        <div id = "line"></div>
-        {% if TB_list %}
-            {% for book, grade in TB_list %}
-                <div class = result>
-                    <div class = "resulttext">
-                        <a href = "{% url 'book_detail' %}" class = resultlink>
-                        <div>
-                            <p>Title: {{ book.title }}</p>
-                            <p>Authors: 
-                            {% for x in book.authors %}
-                                {{ x }}, 
-                            {% endfor %}
-                            </p>
-                            <p>ISBN: {{ book.isbn_13 }}</p>
-                            <p>Match Percentage: {{ grade }}%</p>
+        {% if LC_toggle %}
+            <h3>Livraria Cultura Results</h3>
+            <div id = "line"></div>
+            {% if LC_list %}
+                {% for book, grade in LC_list %}
+                    <div class = result>
+                        <div class = "resulttext">
+                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <div>
+                                <p>Title: {{ book.title }}</p>
+                                <p>Authors: 
+                                {% for x in book.authors %}
+                                    {{ x }}, 
+                                {% endfor %}
+                                </p>
+                                <p>ISBN: {{ book.isbn_13 }}</p>
+                                <p>Match Percentage: {{ grade }}%</p>
+                            </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                    <div class = resultimage>
-                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                        <div class = resultimage>
+                            <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                            <br>
+                            <a href = "{{ book.url }}">Click to visit site</a>
+                        </div> 
                         <br>
-                        <a href = "{{ book.url }}">Click to visit site</a>
-                    </div> 
-                    <br>
-                </div>
-                <div id = "line"></div>
-            {% endfor %}
-        {% else %}
-            <h5>No results found</h4>
+                    </div>
+                    <div id = "line"></div>
+                {% endfor %}
+            {% else %}
+                <h5>No results found</h5>
+            {% endif %}
+            <br>
+            <br>
         {% endif %}
-    
+
+        {% if TB_toggle %}
+            <h3>TestBookStore Results</h3>
+            <div id = "line"></div>
+            {% if TB_list %}
+                {% for book, grade in TB_list %}
+                    <div class = result>
+                        <div class = "resulttext">
+                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <div>
+                                <p>Title: {{ book.title }}</p>
+                                <p>Authors: 
+                                {% for x in book.authors %}
+                                    {{ x }}, 
+                                {% endfor %}
+                                </p>
+                                <p>ISBN: {{ book.isbn_13 }}</p>
+                                <p>Match Percentage: {{ grade }}%</p>
+                            </div>
+                            </a>
+                        </div>
+                        <div class = resultimage>
+                            <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                            <br>
+                            <a href = "{{ book.url }}">Click to visit site</a>
+                        </div> 
+                        <br>
+                    </div>
+                    <div id = "line"></div>
+                {% endfor %}
+            {% else %}
+                <h5>No results found</h4>
+            {% endif %}
+        
+        {% endif %}
     {% endif %}
 
 {% endblock %}
