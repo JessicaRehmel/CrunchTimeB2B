@@ -11,18 +11,28 @@
         <div id = line></div>
         {% if KB_list %}
             {% for book, grade in KB_list %}
-                <a href = "{% url 'book_detail' %}" class = resultlink>
-                    <div class = result>
-                        <p>Title: {{ book.title }}</p>
-                        <p>Authors: 
-                        {% for x in book.authors %}
-                            {{ x }}, 
-                        {% endfor %}
-                        </p>
-                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                        <br>
+                <div class = result>
+                    <div class = "resulttext">
+                        <a href = "{% url 'book_detail' %}" class = resultlink>
+                        <div>
+                            <p>Title: {{ book.title }}</p>
+                            <p>Authors: 
+                            {% for x in book.authors %}
+                                {{ x }}, 
+                            {% endfor %}
+                            </p>
+                            <p>ISBN: {{ book.isbn_13 }}</p>
+                            <p>Match Percentage: {{ grade }}%</p>
+                        </div>
+                        </a>
                     </div>
-                </a>
+                    <div class = resultimage>
+                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                        <br>
+                        <a href = "{{ book.url }}">Click to visit site</a>
+                    </div> 
+                    <br>
+                </div>
                 <div id = "line"></div>
             {% endfor %}
         {% else %}
@@ -37,18 +47,28 @@
         <div id = line></div>
         {% if GB_list %}
             {% for book, grade in GB_list %}
-                <a href = "{% url 'book_detail' %}" class = resultlink>
-                    <div class = result>
-                        <p>Title: {{ book.title }}</p>
-                        <p>Authors: 
-                        {% for x in book.authors %}
-                            {{ x }}, 
-                        {% endfor %}
-                        </p>
-                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                        <br>
+                <div class = result>
+                    <div class = "resulttext">
+                        <a href = "{% url 'book_detail' %}" class = resultlink>
+                        <div>
+                            <p>Title: {{ book.title }}</p>
+                            <p>Authors: 
+                            {% for x in book.authors %}
+                                {{ x }}, 
+                            {% endfor %}
+                            </p>
+                            <p>ISBN: {{ book.isbn_13 }}</p>
+                            <p>Match Percentage: {{ grade }}%</p>
+                        </div>
+                        </a>
                     </div>
-                </a>
+                    <div class = resultimage>
+                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                        <br>
+                        <a href = "{{ book.url }}">Click to visit site</a>
+                    </div> 
+                    <br>
+                </div>
                 <div id = "line"></div>
             {% endfor %}
         {% else %}
@@ -63,18 +83,28 @@
         <div id = line></div>
         {% if SD_list %}
             {% for book, grade in SD_list %}
-                <a href = "{% url 'book_detail' %}" class = resultlink>
-                    <div class = result>
-                        <p>Title: {{ book.title }}</p>
-                        <p>Authors: 
-                        {% for x in book.authors %}
-                            {{ x }}, 
-                        {% endfor %}
-                        </p>
-                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                        <br>
+                <div class = result>
+                    <div class = "resulttext">
+                        <a href = "{% url 'book_detail' %}" class = resultlink>
+                        <div>
+                            <p>Title: {{ book.title }}</p>
+                            <p>Authors: 
+                            {% for x in book.authors %}
+                                {{ x }}, 
+                            {% endfor %}
+                            </p>
+                            <p>ISBN: {{ book.isbn_13 }}</p>
+                            <p>Match Percentage: {{ grade }}%</p>
+                        </div>
+                        </a>
                     </div>
-                </a>
+                    <div class = resultimage>
+                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                        <br>
+                        <a href = "{{ book.url }}">Click to visit site</a>
+                    </div> 
+                    <br>
+                </div>
                 <div id = "line"></div>
             {% endfor %}
         {% else %}
@@ -89,18 +119,28 @@
         <div id = line></div>
         {% if LC_list %}
             {% for book, grade in LC_list %}
-                <a href = "{% url 'book_detail' %}" class = resultlink>
-                    <div class = result>
-                        <p>Title: {{ book.title }}</p>
-                        <p>Authors: 
-                        {% for x in book.authors %}
-                            {{ x }}, 
-                        {% endfor %}
-                        </p>
-                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                        <br>
+                <div class = result>
+                    <div class = "resulttext">
+                        <a href = "{% url 'book_detail' %}" class = resultlink>
+                        <div>
+                            <p>Title: {{ book.title }}</p>
+                            <p>Authors: 
+                            {% for x in book.authors %}
+                                {{ x }}, 
+                            {% endfor %}
+                            </p>
+                            <p>ISBN: {{ book.isbn_13 }}</p>
+                            <p>Match Percentage: {{ grade }}%</p>
+                        </div>
+                        </a>
                     </div>
-                </a>
+                    <div class = resultimage>
+                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                        <br>
+                        <a href = "{{ book.url }}">Click to visit site</a>
+                    </div> 
+                    <br>
+                </div>
                 <div id = "line"></div>
             {% endfor %}
         {% else %}
@@ -115,18 +155,28 @@
         <div id = line></div>
         {% if TB_list %}
             {% for book, grade in TB_list %}
-                <a href = "{% url 'book_detail' %}" class = resultlink>
-                    <div class = result>
-                        <p>Title: {{ book.title }}</p>
-                        <p>Authors: 
-                        {% for x in book.authors %}
-                            {{ x }}, 
-                        {% endfor %}
-                        </p>
-                        <p>ISBN: {{ book.isbn_13 }} Match Percentage: {{ grade }}%</p>
-                        <br>
+                <div class = result>
+                    <div class = "resulttext">
+                        <a href = "{% url 'book_detail' %}" class = resultlink>
+                        <div>
+                            <p>Title: {{ book.title }}</p>
+                            <p>Authors: 
+                            {% for x in book.authors %}
+                                {{ x }}, 
+                            {% endfor %}
+                            </p>
+                            <p>ISBN: {{ book.isbn_13 }}</p>
+                            <p>Match Percentage: {{ grade }}%</p>
+                        </div>
+                        </a>
                     </div>
-                </a>
+                    <div class = resultimage>
+                        <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
+                        <br>
+                        <a href = "{{ book.url }}">Click to visit site</a>
+                    </div> 
+                    <br>
+                </div>
                 <div id = "line"></div>
             {% endfor %}
         {% else %}

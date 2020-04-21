@@ -176,6 +176,19 @@ div.spread span:last-child {
 .result {
     background-color: #a8b5ff;
     padding-left: 10px;
+    display: inline-flex;
+    width: 100%
+}
+
+.resulttext {
+    float:left;
+    width: 100%;
+    padding: 10px;
+}
+
+.resultimage {
+    float: right;
+    padding: 10px;
 }
 
 .result:hover {
