@@ -1,7 +1,10 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h2>Results</h2>
+    <h1>Results</h1>
+    {% if error_message != ''%}
+        <h4>{{ error_message }}</h4>
+    {% else %}
 
     {% if KB_toggle %}
         <h3>Kobo Results</h3>
