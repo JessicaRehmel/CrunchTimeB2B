@@ -16,7 +16,7 @@ from checkmate import SiteBookData
 # Create your views here.
 
 @login_required
-def index(request):
+def index(request, form_exception=None):
 
     #print(checkmate.get_book_site('lc').slug)
 
@@ -24,6 +24,25 @@ def index(request):
 
     }
     return render(request, 'index.html', context = context)
+
+@login_required
+def check_form_data(request):
+    book_title = request.GET.get("title_field")
+    author_list = request.GET.get("author_field")
+    book_ISBN = request.GET.get("ISBN_field")
+    book_JSON = request.GET.get("JSON_field")
+    
+    if book_JSON != '':
+        if book_title == '' and author_list == '' and book_ISBN == '':
+            return #search with only JSON
+        else:
+            return #home(request, "JSON only or not") #to home with must search by JSON only or not error
+    else:
+        if book_title == '' and author_list == '' and book_ISBN == '':
+            return #to home with empty exception
+        else:
+            return #search using only non-JSON
+    
 
 class Results(LoginRequiredMixin, generic.ListView):
     queryset = SiteBookData
@@ -58,8 +77,8 @@ class Results(LoginRequiredMixin, generic.ListView):
         GB_list = []
         LC_toggle = False
         LC_list = []
-        SC_toggle = False
-        SC_list = []
+        SD_toggle = False
+        SD_list = []
 
         context['book_title'] = book_title
         context['book_authors'] = book_authors
@@ -71,8 +90,8 @@ class Results(LoginRequiredMixin, generic.ListView):
         context['GB_list'] = GB_list
         context['LC_toggle'] = LC_toggle
         context['LC_list'] = LC_list
-        context['SC_toggle'] = SC_toggle
-        context['SC_list'] = SC_list
+        context['SD_toggle'] = SD_toggle
+        context['SD_list'] = SD_list
         return context
 
 @login_required

@@ -18,7 +18,7 @@
                     <br>
                 </div>
             </a>
-            <div id = line></div>
+            <div id = "line"></div>
         {% endfor %}
     {% endif %}
     <br>
@@ -42,9 +42,9 @@
     {% endif %}
     <br>
     <br>
-    {% if SC_toggle %}
+    {% if SD_toggle %}
         <h3>Scribd Results</h3>
-        {% for book in SC_list %}
+        {% for book in SD_list %}
             <a href = "{% url 'book_detail' %}">
                 <div>
                     <p>Title: {{ book.0 }}</p>

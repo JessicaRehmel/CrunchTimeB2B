@@ -4,7 +4,7 @@
     <h2>Search Form</h2>
     <p>Fill out any number of the fields below and click "Submit" to search for your book.</p>
     <div class="container">
-        <form action = "{% url 'results' %}" method ="GET" class = "searchform"> <!--not sure about this: action = "{% url 'results' %}"-->
+        <form action = "{% url 'results' %}" method ="GET" class = "searchform">
             <label class = "searchlabel" for="search_title">Title: </label>
             <input class = "searchbox" id="search_title" type="text" name="title_field" placeholder="Enter book title"><br>
             <label class = "searchlabel" for="search_authors">Author(s): </label>
@@ -14,6 +14,6 @@
             <label class = "searchlabel" for="search_JSON">JSON: </label>
             <input class = "searchbox" id="search_JSON" type="text" name="JSON_field" placeholder="Enter JSON data"><br><br>
             <input class = "button" type="submit" value="SUBMIT">
-        </form>
+        </form> 
     </div>
 {% endblock %}
