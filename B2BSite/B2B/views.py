@@ -56,11 +56,20 @@ def book_detail(request):
     }
     return render(request, 'book_detail.html', context = context)
 
+@login_required
+def perform_search(request):
+    #convert request.body.queries into a list of partial siteBookData objects,
+    #use the Checkmate scrapers that correspond to the True "wants" fields on request.user.person.company (or all of them, if request.user.person is None)
+    #convert the results of the scrapers FROM a list (one element per scraper) of lists of SiteBookData objects
+    #                                    INTO a JSON string
+    #return the JSON string
+    pass
+
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def book_search(request):
-    """request_body needs to be of the following form:
+    """request.body needs to be of the following form:
 
             "queries": [ 
                         {"author": "first author's name", "title": "first book title", "isbn": "first isbn"},
@@ -77,25 +86,16 @@ def book_search(request):
     """
     if request.user.is_staff or request.user.person is not None:        
         if not request.user.is_staff:
+            #we increment the counter here and not in perform_search because the logic is here and perform_search just does the heavy lifting
             request.user.person.search_count += 1
             request.user.person.save()
         
-        queries = request.body.queries
-        search_results = perform_search(queries) #get the list of SiteBookData objects that match the search queries
+        search_results = perform_search(request) #get the JSON-ified list of book matches
         
         if search_results is not None:
-            json_result = "results: ["
-            
-            for book in search_results:
-                json_results.append(book.to_json(), ",")
-            
-            json_result.append("]")
-
-            return response(json_result, status=200)
-
+            res = response(search_results, status=200)
         else:
-           res = response("\"results\":\"None\"", status=204)
-
+            res = response("\"results\":\"None\"", status=204)
         return res
 
     else:
