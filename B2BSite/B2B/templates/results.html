@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Results</h1>
+    <h2>Results for {{ search_terms }}</h2>
     {% if error_message != ''%}
         <h4>{{ error_message }}</h4>
     {% else %}

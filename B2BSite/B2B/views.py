@@ -40,9 +40,17 @@ class Results(LoginRequiredMixin, generic.ListView):
         book_title = self.request.GET.get("title_field")
         author_list = self.request.GET.get("authors_field")
         book_ISBN = self.request.GET.get("ISBN_field")
-        #book_match_percentage = self.request.GET.get("isbn_field")
         book_JSON = self.request.GET.get("JSON_field")
         error_message = ''
+
+        q = ""
+        if book_title:
+            q = q + book_title
+        if author_list:
+            q = q + author_list
+        if book_ISBN:
+            q = q + book_ISBN
+        #JSON stuff?
 
         #testing this
         if book_JSON != '':
@@ -109,7 +117,7 @@ class Results(LoginRequiredMixin, generic.ListView):
             TB_list.sort(reverse=True,key = lambda x: x[1])  
             context['TB_list'] = TB_list
 
-        
+        context['search_terms'] = q
         context['book_title'] = book_title
         context['book_authors'] = book_authors
         context['book_ISBN'] = book_ISBN
