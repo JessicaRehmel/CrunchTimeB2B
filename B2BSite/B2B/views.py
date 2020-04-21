@@ -100,6 +100,7 @@ def book_search(request):
 
     else:
         return HttpResponseForbidden
+    
 
 class Results(LoginRequiredMixin, generic.ListView):
     queryset = SiteBookData
@@ -114,7 +115,35 @@ class Results(LoginRequiredMixin, generic.ListView):
             user.person.save()
 
         book_title = self.request.GET.get("title_field")
-        author_list = self.request.GET.get("author_field")
+        author_list = self.request.GET.get("authors_field")
+        book_ISBN = self.request.GET.get("ISBN_field")
+        book_JSON = self.request.GET.get("JSON_field")
+        error_message = ''
+
+        q = ""
+        if book_title:
+            q = q + book_title
+        if author_list:
+            q = q + author_list
+        if book_ISBN:
+            q = q + book_ISBN
+        #JSON stuff?
+
+        #testing this
+        if book_JSON != '':
+            if book_title == '' and author_list == '' and book_ISBN == '':
+                pass #searching with only JSON
+            else:
+                context['error_message'] = "You must enter only JSON data OR title, author, and/or ISBN information into the search fields. Return Home to retry." #to home with must search by JSON only or not error
+                return context
+        else:
+            if book_title == '' and author_list == '' and book_ISBN == '':
+                context['error_message'] = "Search fields were left blank. Please return to Home and enter search information." #to home with empty exception
+                return context
+            else:
+                pass #search using only non-JSON
+        
+        
         book_authors = []
         temp = ""
         if author_list != None:
@@ -125,9 +154,7 @@ class Results(LoginRequiredMixin, generic.ListView):
                 else:
                     temp = temp + letter
             book_authors.append(temp)
-        book_ISBN = self.request.GET.get("ISBN_field")
-        #book_match_percentage = self.request.GET.get("isbn_field")
-        book_JSON = self.request.GET.get("JSON_field")
+        
 
         book_data = SiteBookData(book_ISBN, book_title, book_authors)
 
@@ -163,6 +190,7 @@ class Results(LoginRequiredMixin, generic.ListView):
             TB_list.sort(reverse=True,key = lambda x: x[1])  
             context['TB_list'] = TB_list
 
+        context['search_terms'] = q
         context['book_title'] = book_title
         context['book_authors'] = book_authors
         context['book_ISBN'] = book_ISBN
