@@ -23,6 +23,10 @@ from checkmate import SiteBookData
 
 @login_required
 def home(request):
+    """
+    Displays the home page 
+    (called home to avoid overlap with the Django admin index page
+    """
 
     context = {
 
@@ -30,40 +34,13 @@ def home(request):
     return render(request, 'home.html', context = context)
 
 
-@login_required
-def book_detail(request, site, book_id):
-    
-    book_title = "stuff"
-    book_subtitle = "lesser stuff"
-    book_series = "even lesser stuff"
-    book_volume = "a number"
-    book_authors = "a list of stuff"
-    book_format = "fancy stuff"
-    book_ISBN = "a long number"
-    book_url = "complex stuff"
-    book_match_percentage = "a fancy number"
-    book_description = "dear lord the text"
-
-    context = {
-        'book_title': book_title,
-        'book_subtitle': book_subtitle,
-        'book_series': book_series,
-        'book_volume': book_volume,
-        'book_authors': book_authors,
-        'book_format': book_format,
-        'book_ISBN': book_ISBN,
-        'book_url': book_url,
-        'book_match_percentage': book_match_percentage,
-        'book_description': book_description,
-    }
-    return render(request, 'book_detail.html', context = context)
-
-
 class Results(LoginRequiredMixin, generic.ListView):
+    """Fetches search results based on queries and relevant book sites"""
     queryset = SiteBookData
     template_name = 'results.html'
 
     def get_context_data(self, *args, **kwargs):
+        """Gets search results from all sites the company is interested in """
         context = super().get_context_data(*args, **kwargs)
         user = self.request.user
         company = user.person.company
@@ -160,11 +137,9 @@ class Results(LoginRequiredMixin, generic.ListView):
         return context
 
 
-<<<<<<< HEAD
-=======
 @login_required
 def book_detail(request, site, book_id):
-    
+    """Displays data for a single book"""
     base_site = checkmate.get_book_site(site)
     book_data = base_site.get_book_data_from_site(base_site.base + book_id)
     
@@ -192,7 +167,6 @@ def book_detail(request, site, book_id):
     return render(request, 'book_detail.html', context = context)
 
 
->>>>>>> master
 class CompanyDetail(LoginRequiredMixin, generic.ListView):
     """Generic class-based view listing companies, their users, and their search counts"""
     model = Company
@@ -200,6 +174,7 @@ class CompanyDetail(LoginRequiredMixin, generic.ListView):
     paginate_by = 3
 
     def get_queryset(self):
+        """Returns the company the user is a part of, or all companies for unafiliated admins """
         u = self.request.user
 
         if u.is_staff:
@@ -211,20 +186,23 @@ class CompanyDetail(LoginRequiredMixin, generic.ListView):
 
 @api_view(['POST'])
 def search_books(request):
-    """request.body needs to be of the following form:
+    """
+    If user can be authenticated, then use checkmate to search for books. If the user is a customer, track search for billing purposes.
 
-            username:"username",
-            password:"password",
-            queries:"[ {"author": "first author's name", "title": "first book title", "isbn": "first isbn"},
-                        {"author": "second author's name", "title": "second book title", "isbn": "second isbn"},
-                        .
-                        .
-                        .
-                        {"author": "last author's name", "title": "last book title", "isbn": "last isbn"} ]"
+    request.body needs to be of the following form:
 
-        such that the array must contain at least one element and at least one field of at least one element must not be the empty sting
-        (if the array is empty or every element contains only empty strings in its fields,
-                no meaningful results will be returned but the user (if the user is a client and not an admin) will still be billed for that search)
+        username:"username",
+        password:"password",
+        queries:"[ {"author": "first author's name", "title": "first book title", "isbn": "first isbn"},
+                    {"author": "second author's name", "title": "second book title", "isbn": "second isbn"},
+                    .
+                    .
+                    .
+                    {"author": "last author's name", "title": "last book title", "isbn": "last isbn"} ]"
+
+    such that the array must contain at least one element and at least one field of at least one element must not be the empty sting
+    (if the array is empty or every element contains only empty strings in its fields,
+            no meaningful results will be returned but the user (if the user is a client and not an admin) will still be billed for that search)
     """
     
     un = request.body.username
@@ -253,7 +231,8 @@ def search_books(request):
 
 @login_required
 def __perform_search(request):
-    if queries:
+    """Uses checkmate to search all applicable websites and return books that match the search queries"""
+    if request.body.queries:
         # convert the JSON queries into a list of partial SiteBookData objects
         query_list = []
         for q in request.body.queries:
@@ -309,6 +288,10 @@ def __perform_search(request):
 
 @login_required
 def __jsonify_dict(request, results_dict):
+    """
+    Accepts a dictionary where keys are site names and values are search results from those websites.
+    Converts SiteBookData objects into JSON string, which is then returned.
+    """
     json_results = "{ \"results\": ["
 
     if results_dict["tb"] is not None:
