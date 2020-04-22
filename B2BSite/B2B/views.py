@@ -173,9 +173,9 @@ def book_search(request):
         search_results = perform_search(request) # get the JSON-ified list of book matches
         
         if search_results is not None:
-            res = response(search_results, status=200)
+            res = Response(search_results, status=200)
         else:
-            res = response("\"results\":\"None\"", status=204)
+            res = Response("\"results\":\"None\"", status=204)
         return res
 
     else:
@@ -283,9 +283,7 @@ class Results(LoginRequiredMixin, generic.ListView):
 
 
 @login_required
-def book_detail(request, book_id):
-
-
+def book_detail(request, site, book_id):
     
     book_title = "stuff"
     book_subtitle = "lesser stuff"
