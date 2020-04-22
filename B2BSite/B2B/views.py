@@ -23,6 +23,10 @@ from checkmate import SiteBookData
 
 @login_required
 def home(request):
+    """
+    Displays the home page 
+    (called home to avoid overlap with the Django admin index page
+    """
 
     context = {
 
@@ -34,6 +38,7 @@ def home(request):
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def perform_search(request):
+    """ """
     if request.user.is_staff or request.user.person is not None:
         if request.body.queries:
             # convert the JSON queries into a list of partial SiteBookData objects
@@ -186,6 +191,7 @@ class Results(LoginRequiredMixin, generic.ListView):
     template_name = 'results.html'
 
     def get_context_data(self, *args, **kwargs):
+        """Gets search results from all sites the company is interested in """
         context = super().get_context_data(*args, **kwargs)
         user = self.request.user
         company = user.person.company
@@ -319,6 +325,7 @@ class CompanyDetail(LoginRequiredMixin, generic.ListView):
     paginate_by = 3
 
     def get_queryset(self):
+        """Returns the company the user is a part of, or all companies for unafiliated admins """
         u = self.request.user
 
         if u.is_staff:

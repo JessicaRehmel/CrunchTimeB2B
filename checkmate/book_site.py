@@ -121,7 +121,7 @@ class BookSite:
                     if word == word2:
                         current_best = 1
                 total += current_best
-            if (len(author) > len(author2)):
+            if len(author) > len(author2):
                 return total / len(author)
             else:
                 return total / len(match)

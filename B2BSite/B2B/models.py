@@ -13,6 +13,7 @@ class Company(models.Model):
     wants_sd = models.BooleanField(verbose_name='can search Scribd')
 
     def get_total_searches(self):
+        """Returns the total searches made by all users in the company."""
         total = 0
         for p in self.person_set.all():
             total = total + p.search_count
