@@ -8,4 +8,5 @@ urlpatterns = [
     path('book_detail/<slug:site>/<path:book_id>/', views.book_detail, name='book_detail'), #<slug:book_id>/ <-add this later    shows the comparison % and details on a given book???
     path('company_detail/', views.CompanyDetail.as_view(), name='company_detail'), #shows the reporting data for the company according to who is viewing the page
     path('admin/', include(admin.site.urls[0])), #to give logged-in admins a direct link to the django-admin site
+    path('search_books/', views.search_books), #the url for the API call
 ]
