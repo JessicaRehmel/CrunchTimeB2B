@@ -58,11 +58,115 @@ def book_detail(request):
 
 @login_required
 def perform_search(request):
-    #convert request.body.queries into a list of partial siteBookData objects,
-    #use the Checkmate scrapers that correspond to the True "wants" fields on request.user.person.company (or all of them, if request.user.person is None)
-    #convert the results of the scrapers FROM a list (one element per scraper) of lists of SiteBookData objects
-    #                                    INTO a JSON string
-    #return the JSON string
+    if request.user.is_staff or request.user.person is not None:
+        if request.body.queries:
+            # convert the JSON queries into a list of partial SiteBookData objects
+            query_list = []
+            for q in request.body.queries:
+                query = new SiteBookData
+                query.from_json(q)
+                query_list.append(query)
+
+            #use the checkmate scrapers to get the results from all applicable sites
+            results_dict = {}
+
+            if request.user.is_staff or request.user.person.company.wants_tb:
+                tb_list = checkmate.get_book_site('tb').find_book_matches_at_site(book_data)
+                tb_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
+                if len(tb_list) > 10:
+                    tb_list = tb_list[:10]  # get the top ten results
+                results_dict["tb"] = tb_list
+
+            if request.user.is_staff or request.user.person.company.wants_kb:
+                kb_list = checkmate.get_book_site('kb').find_book_matches_at_site(book_data)
+                kb_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
+                if len(kb_list) > 10:
+                    kb_list = kb_list[:10]  # get the top ten results
+                results_dict["kb"] = kb_list
+
+            if request.user.is_staff or request.user.person.company.wants_gb:
+                gb_list = checkmate.get_book_site('gb').find_book_matches_at_site(book_data)
+                gb_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
+                if len(gb_list) > 10:
+                    gb_list = gb_list[:10]  # get the top ten results
+                results_dict["gb"] = gb_list
+
+            if request.user.is_staff or request.user.person.company.wants_lc:
+                lc_list = checkmate.get_book_site('lc').find_book_matches_at_site(book_data)
+                lc_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
+                if len(lc_list) > 10:
+                    lc_list = lc_list[:10]  # get the top ten results
+                results_dict["lc"] = lc_list
+
+            if request.user.is_staff or request.user.person.company.wants_sd:
+                sd_list = checkmate.get_book_site('sd').find_book_matches_at_site(book_data)
+                sd_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
+                if len(sd_list) > 10:
+                    sd_list = sd_list[:10]  # get the top ten results
+                results_dict["sd"] = sd_list
+
+            #convert the dictionary of lists into a JSON string
+            json_results = "{ \"results\": ["
+
+            if results_dict["tb"] is not None:
+                l = results_dict["tb"]
+                json_results += " { \"from Test Bookstore\": [ "                
+                for e in l:
+                    json_results += e.to_json()
+                    if l.index_of(e) < len(l) - 1:
+                        json_results += ","
+                json_results += " ] },"
+
+            if results_dict["kb"] is not None:
+                l = results_dict["kb"]
+                json_results += " {\"from Kobo\": [ "
+                for e in l:
+                    json_results += e.to_json()
+                    if l.index_of(e) < len(l) - 1:
+                        json_results += ","
+                json_results += " ] },"
+
+            if results_dict["gb"] is not None:
+                l = results_dict["gb"]
+                json_results += " {\"from Google Books\": [ "
+                for e in l:
+                    json_results += e.to_json()
+                    if l.index_of(e) < len(l) - 1:
+                        json_results += ","
+                json_results += " ] },"
+
+            if results_dict["lc"] is not None:
+                l = results_dict["lc"]
+                json_results += " {\"from Livraria Cultura\": [ "
+                for e in l:
+                    json_results += e.to_json()
+                    if l.index_of(e) < len(l) - 1:
+                        json_results += ","
+                json_results += " ] },"
+
+            if results_dict["sd"] is not None:
+                l = results_dict["sd"]
+                json_results += " {\"from Scribd\": [ "
+                for e in l:
+                    json_results += e.to_json()
+                    if l.index_of(e) < len(l) - 1:
+                        json_results += ","
+                json_results += " ] },"
+
+            # remove the trailing comma before closing the JSON string
+            last_comma_index = len(json_results) - 1
+            json_results = json_results[:last_comma_index]
+            json_results += "] }"
+            
+            #send back the results string
+            return json_results
+
+        else:
+            return None
+
+        pass
+    else:
+        return None
     pass
 
 @api_view(['POST'])
@@ -86,11 +190,11 @@ def book_search(request):
     """
     if request.user.is_staff or request.user.person is not None:        
         if not request.user.is_staff:
-            #we increment the counter here and not in perform_search because the logic is here and perform_search just does the heavy lifting
+            # we increment the counter here and not in perform_search because the logic is here and perform_search just does the heavy lifting
             request.user.person.search_count += 1
             request.user.person.save()
         
-        search_results = perform_search(request) #get the JSON-ified list of book matches
+        search_results = perform_search(request) # get the JSON-ified list of book matches
         
         if search_results is not None:
             res = response(search_results, status=200)
@@ -101,7 +205,6 @@ def book_search(request):
     else:
         return HttpResponseForbidden
     
-
 class Results(LoginRequiredMixin, generic.ListView):
     queryset = SiteBookData
     template_name = 'results.html'
