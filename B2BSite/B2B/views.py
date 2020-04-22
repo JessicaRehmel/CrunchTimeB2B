@@ -84,33 +84,33 @@ class Results(LoginRequiredMixin, generic.ListView):
         #needs to come from active company
         if company.wants_kb:
             KB_list = checkmate.get_book_site('kb').find_book_matches_at_site(book_data)
+            KB_list.sort(reverse=True,key = lambda x: x[1])  
             if len(KB_list) > 10:
                 KB_list = KB_list[:10]
-            KB_list.sort(reverse=True,key = lambda x: x[1])  
             context['KB_list'] = KB_list
         if company.wants_gb:
             GB_list = checkmate.get_book_site('gb').find_book_matches_at_site(book_data)
+            GB_list.sort(reverse=True,key = lambda x: x[1])  
             if len(GB_list) > 10:
                 GB_list = GB_list[:10]
-            GB_list.sort(reverse=True,key = lambda x: x[1])  
             context['GB_list'] = GB_list
         if company.wants_lc:
             LC_list = checkmate.get_book_site('lc').find_book_matches_at_site(book_data)
+            LC_list.sort(reverse=True,key = lambda x: x[1])  
             if len(LC_list) > 10:
                 LC_list = LC_list[:10]
-            LC_list.sort(reverse=True,key = lambda x: x[1])  
             context['LC_list'] = LC_list
         if company.wants_sd:
             SD_list = checkmate.get_book_site('sd').find_book_matches_at_site(book_data)
+            SD_list.sort(reverse=True,key = lambda x: x[1])  
             if len(SD_list) > 10:
                 SD_list = SD_list[:10]
-            SD_list.sort(reverse=True,key = lambda x: x[1])  
             context['SD_list'] = SD_list
         if company.wants_tb:
             TB_list = checkmate.get_book_site('tb').find_book_matches_at_site(book_data)
+            TB_list.sort(reverse=True,key = lambda x: x[1])  
             if len(TB_list) > 10:
                 TB_list = TB_list[:10]
-            TB_list.sort(reverse=True,key = lambda x: x[1])  
             context['TB_list'] = TB_list
 
         context['search_terms'] = q
