@@ -225,7 +225,7 @@ class Results(LoginRequiredMixin, generic.ListView):
         
         book_authors = []
         temp = ""
-        if author_list != None:
+        if author_list != None and author_list != '':
             for letter in author_list:
                 if letter == ",":
                     book_authors.append(temp)
@@ -285,27 +285,28 @@ class Results(LoginRequiredMixin, generic.ListView):
 @login_required
 def book_detail(request, site, book_id):
     
-    book_title = "stuff"
-    book_subtitle = "lesser stuff"
-    book_series = "even lesser stuff"
-    book_volume = "a number"
-    book_authors = "a list of stuff"
-    book_format = "fancy stuff"
-    book_ISBN = "a long number"
-    book_url = "complex stuff"
-    book_match_percentage = "a fancy number"
-    book_description = "dear lord the text"
+    base_site = checkmate.get_book_site(site)
+    book_data = base_site.get_book_data_from_site(base_site.base + book_id)
+    
+    book_title = book_data.title
+    book_subtitle = book_data.subtitle
+    book_series = book_data.series
+    book_authors = book_data.authors
+    book_format = book_data.book_format
+    book_ISBN = book_data.isbn_13
+    book_url = book_data.url
+    #book_match_percentage = "a fancy number"
+    book_description = book_data.description
 
     context = {
         'book_title': book_title,
         'book_subtitle': book_subtitle,
         'book_series': book_series,
-        'book_volume': book_volume,
         'book_authors': book_authors,
         'book_format': book_format,
         'book_ISBN': book_ISBN,
         'book_url': book_url,
-        'book_match_percentage': book_match_percentage,
+        #'book_match_percentage': book_match_percentage,
         'book_description': book_description,
     }
     return render(request, 'book_detail.html', context = context)
