@@ -1,4 +1,4 @@
-#!c:\users\rtd7\documents\ct3\b2b_env\scripts\python.exe
+#!C:\Users\DraconaMachina\Documents\SE5-Repo-CrunchTimeB2B\b2b_env\Scripts\python3.exe
 from django.core import management
 
 if __name__ == "__main__":
