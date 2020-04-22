@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import authenticate
 
 from rest_framework import generics, renderers, status
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -16,6 +17,8 @@ from .models import Company, Person
 
 import requests
 import sys
+import copy
+import json
 sys.path.append('.\..\checkmate')
 import checkmate
 from checkmate import SiteBookData
@@ -205,12 +208,12 @@ def search_books(request):
             no meaningful results will be returned but the user (if the user is a client and not an admin) will still be billed for that search)
     """
     
-    un = request.body.username
-    pw = request.body.password
+    un = request.data["username"]
+    pw = request.data["password"]
     user = authenticate(username=un, password=pw)    
     
     if user is not None: 
-        req = copy.deepcopy(request)
+        req = copy.deepcopy(request.data)
         req.user = user
 
         if user.person is not None or user.is_staff:
@@ -232,54 +235,52 @@ def search_books(request):
 @login_required
 def __perform_search(request):
     """Uses checkmate to search all applicable websites and return books that match the search queries"""
-    if request.body.queries:
+    if request["queries"]:
         # convert the JSON queries into a list of partial SiteBookData objects
-        query_list = []
-        for q in request.body.queries:
-            query = SiteBookData()
-            query.from_json(q)
-            query_list.append(query)
+        query = SiteBookData()
+        print(request["queries"])
+        query.from_json(str(request["queries"]))
 
         #use the checkmate scrapers to get the results from all applicable sites
         results_dict = {}
 
         if request.user.is_staff or request.user.person.company.wants_tb:
-            tb_list = checkmate.get_book_site('tb').find_book_matches_at_site(query_list)
+            tb_list = checkmate.get_book_site('tb').find_book_matches_at_site(query)
             tb_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
             if len(tb_list) > 10:
                 tb_list = tb_list[:10]  # get the top ten results
             results_dict["tb"] = tb_list
 
         if request.user.is_staff or request.user.person.company.wants_kb:
-            kb_list = checkmate.get_book_site('kb').find_book_matches_at_site(query_list)
+            kb_list = checkmate.get_book_site('kb').find_book_matches_at_site(query)
             kb_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
             if len(kb_list) > 10:
                 kb_list = kb_list[:10]  # get the top ten results
             results_dict["kb"] = kb_list
 
         if request.user.is_staff or request.user.person.company.wants_gb:
-            gb_list = checkmate.get_book_site('gb').find_book_matches_at_site(query_list)
+            gb_list = checkmate.get_book_site('gb').find_book_matches_at_site(query)
             gb_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
             if len(gb_list) > 10:
                 gb_list = gb_list[:10]  # get the top ten results
             results_dict["gb"] = gb_list
 
         if request.user.is_staff or request.user.person.company.wants_lc:
-            lc_list = checkmate.get_book_site('lc').find_book_matches_at_site(query_list)
+            lc_list = checkmate.get_book_site('lc').find_book_matches_at_site(query)
             lc_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
             if len(lc_list) > 10:
                 lc_list = lc_list[:10]  # get the top ten results
             results_dict["lc"] = lc_list
 
         if request.user.is_staff or request.user.person.company.wants_sd:
-            sd_list = checkmate.get_book_site('sd').find_book_matches_at_site(query_list)
+            sd_list = checkmate.get_book_site('sd').find_book_matches_at_site(query)
             sd_list.sort(reverse=True,key = lambda x: x[1]) # get the results into descending order of % match if they weren't already
             if len(sd_list) > 10:
                 sd_list = sd_list[:10]  # get the top ten results
             results_dict["sd"] = sd_list
 
         #convert the dictionary of lists into a JSON string & return it
-        json_results = __jsonify_dict(results_dict)
+        json_results = __jsonify_dict(request, results_dict)
         return json_results
 
     else:
@@ -294,48 +295,48 @@ def __jsonify_dict(request, results_dict):
     """
     json_results = "{ \"results\": ["
 
-    if results_dict["tb"] is not None:
+    if "tb" in results_dict:
         l = results_dict["tb"]
         json_results += " { \"from Test Bookstore\": [ "                
         for e in l:
-            json_results += e.to_json()
-            if l.index_of(e) < len(l) - 1:
+            json_results += e[0].to_json()
+            if l.index(e) < len(l) - 1:
                 json_results += ","
         json_results += " ] },"
 
-    if results_dict["kb"] is not None:
+    if "kb" in results_dict:
         l = results_dict["kb"]
         json_results += " {\"from Kobo\": [ "
         for e in l:
-            json_results += e.to_json()
-            if l.index_of(e) < len(l) - 1:
+            json_results += e[0].to_json()
+            if l.index(e) < len(l) - 1:
                 json_results += ","
         json_results += " ] },"
 
-    if results_dict["gb"] is not None:
+    if "gb" in results_dict:
         l = results_dict["gb"]
         json_results += " {\"from Google Books\": [ "
         for e in l:
-            json_results += e.to_json()
-            if l.index_of(e) < len(l) - 1:
+            json_results += e[0].to_json()
+            if l.index(e) < len(l) - 1:
                 json_results += ","
         json_results += " ] },"
 
-    if results_dict["lc"] is not None:
+    if "lc" in results_dict:
         l = results_dict["lc"]
         json_results += " {\"from Livraria Cultura\": [ "
         for e in l:
-            json_results += e.to_json()
-            if l.index_of(e) < len(l) - 1:
+            json_results += e[0].to_json()
+            if l.index(e) < len(l) - 1:
                 json_results += ","
         json_results += " ] },"
 
-    if results_dict["sd"] is not None:
+    if "sd" in results_dict:
         l = results_dict["sd"]
         json_results += " {\"from Scribd\": [ "
         for e in l:
-            json_results += e.to_json()
-            if l.index_of(e) < len(l) - 1:
+            json_results += e[0].to_json()
+            if l.index(e) < len(l) - 1:
                 json_results += ","
         json_results += " ] },"
 
