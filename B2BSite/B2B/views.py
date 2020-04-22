@@ -182,14 +182,12 @@ def search_books(request):
 
             username:"username",
             password:"password",
-            queries:"[ 
-                        {"author": "first author's name", "title": "first book title", "isbn": "first isbn"},
+            queries:"[ {"author": "first author's name", "title": "first book title", "isbn": "first isbn"},
                         {"author": "second author's name", "title": "second book title", "isbn": "second isbn"},
                         .
                         .
                         .
-                        {"author": "last author's name", "title": "last book title", "isbn": "last isbn"}
-                    ]"
+                        {"author": "last author's name", "title": "last book title", "isbn": "last isbn"} ]"
 
         such that the array must contain at least one element and at least one field of at least one element must not be the empty sting
         (if the array is empty or every element contains only empty strings in its fields,
