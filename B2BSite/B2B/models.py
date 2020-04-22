@@ -11,7 +11,6 @@ class Company(models.Model):
     wants_gb = models.BooleanField(verbose_name='can search Google Books')
     wants_lc = models.BooleanField(verbose_name='can search Livraria Cultura')
     wants_sd = models.BooleanField(verbose_name='can search Scribd')
-    wants_ab = models.BooleanField(verbose_name='can search Audiobooks.com')
 
     def get_total_searches(self):
         total = 0
