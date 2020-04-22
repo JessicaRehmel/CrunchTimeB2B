@@ -152,6 +152,7 @@ def book_detail(request, site, book_id):
     book_url = book_data.url
     #book_match_percentage = "a fancy number"
     book_description = book_data.description
+    book_ready_for_sale = book_data.ready_for_sale_string()
 
     context = {
         'book_title': book_title,
@@ -163,6 +164,7 @@ def book_detail(request, site, book_id):
         'book_url': book_url,
         #'book_match_percentage': book_match_percentage,
         'book_description': book_description,
+        'book_ready_for_sale': book_ready_for_sale,
     }
     return render(request, 'book_detail.html', context = context)
 
