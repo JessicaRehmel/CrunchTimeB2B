@@ -178,11 +178,11 @@ class CompanyDetail(LoginRequiredMixin, generic.ListView):
 
 @api_view(['POST'])
 def search_books(request):
-    """request.data needs to be of the following form:
+    """request.body needs to be of the following form:
 
-            "username": "username"
-            "password": "password"
-            "queries": "[ 
+            username:"username",
+            password:"password",
+            queries:"[ 
                         {"author": "first author's name", "title": "first book title", "isbn": "first isbn"},
                         {"author": "second author's name", "title": "second book title", "isbn": "second isbn"},
                         .
@@ -196,8 +196,8 @@ def search_books(request):
                 no meaningful results will be returned but the user (if the user is a client and not an admin) will still be billed for that search)
     """
     
-    un = request.data.username
-    pw = request.data.password
+    un = request.body.username
+    pw = request.body.password
     user = authenticate(username=un, password=pw)    
     
     if user is not None: 
@@ -225,7 +225,7 @@ def __perform_search(request):
     if queries:
         # convert the JSON queries into a list of partial SiteBookData objects
         query_list = []
-        for q in request.data.queries:
+        for q in request.body.queries:
             query = SiteBookData()
             query.from_json(q)
             query_list.append(query)
