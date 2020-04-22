@@ -29,32 +29,6 @@ def home(request):
     }
     return render(request, 'home.html', context = context)
 
-@login_required
-def book_detail(request):
-    book_title = "stuff"
-    book_subtitle = "lesser stuff"
-    book_series = "even lesser stuff"
-    book_volume = "a number"
-    book_authors = "a list of stuff"
-    book_format = "fancy stuff"
-    book_ISBN = "a long number"
-    book_url = "complex stuff"
-    book_match_percentage = "a fancy number"
-    book_description = "dear lord the text"
-
-    context = {
-        'book_title': book_title,
-        'book_subtitle': book_subtitle,
-        'book_series': book_series,
-        'book_volume': book_volume,
-        'book_authors': book_authors,
-        'book_format': book_format,
-        'book_ISBN': book_ISBN,
-        'book_url': book_url,
-        'book_match_percentage': book_match_percentage,
-        'book_description': book_description,
-    }
-    return render(request, 'book_detail.html', context = context)
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -199,9 +173,9 @@ def book_search(request):
         search_results = perform_search(request) # get the JSON-ified list of book matches
         
         if search_results is not None:
-            res = response(search_results, status=200)
+            res = Response(search_results, status=200)
         else:
-            res = response("\"results\":\"None\"", status=204)
+            res = Response("\"results\":\"None\"", status=204)
         return res
 
     else:
@@ -239,11 +213,11 @@ class Results(LoginRequiredMixin, generic.ListView):
             if book_title == '' and author_list == '' and book_ISBN == '':
                 pass #searching with only JSON
             else:
-                context['error_message'] = "You must enter only JSON data OR title, author, and/or ISBN information into the search fields. Return Home to retry." #to home with must search by JSON only or not error
+                context['error_message'] = "You must enter only JSON data OR title, author, and/or ISBN information into the search fields. Return Home to retry."
                 return context
         else:
             if book_title == '' and author_list == '' and book_ISBN == '':
-                context['error_message'] = "Search fields were left blank. Please return to Home and enter search information." #to home with empty exception
+                context['error_message'] = "Search fields were left blank. Please return to Home and enter search information."
                 return context
             else:
                 pass #search using only non-JSON
@@ -306,6 +280,36 @@ class Results(LoginRequiredMixin, generic.ListView):
         context['SD_toggle'] = company.wants_sd
         context['TB_toggle'] = company.wants_tb
         return context
+
+
+@login_required
+def book_detail(request, site, book_id):
+    
+    book_title = "stuff"
+    book_subtitle = "lesser stuff"
+    book_series = "even lesser stuff"
+    book_volume = "a number"
+    book_authors = "a list of stuff"
+    book_format = "fancy stuff"
+    book_ISBN = "a long number"
+    book_url = "complex stuff"
+    book_match_percentage = "a fancy number"
+    book_description = "dear lord the text"
+
+    context = {
+        'book_title': book_title,
+        'book_subtitle': book_subtitle,
+        'book_series': book_series,
+        'book_volume': book_volume,
+        'book_authors': book_authors,
+        'book_format': book_format,
+        'book_ISBN': book_ISBN,
+        'book_url': book_url,
+        'book_match_percentage': book_match_percentage,
+        'book_description': book_description,
+    }
+    return render(request, 'book_detail.html', context = context)
+
 
 class CompanyDetail(LoginRequiredMixin, generic.ListView):
     """Generic class-based view listing companies, their users, and their search counts"""
