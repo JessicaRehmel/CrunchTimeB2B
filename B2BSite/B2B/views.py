@@ -56,7 +56,9 @@ def book_detail(request):
     }
     return render(request, 'book_detail.html', context = context)
 
-@login_required
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def perform_search(request):
     if request.user.is_staff or request.user.person is not None:
         if request.body.queries:
