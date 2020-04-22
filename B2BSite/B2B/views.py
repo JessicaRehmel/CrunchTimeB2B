@@ -57,11 +57,11 @@ class Results(LoginRequiredMixin, generic.ListView):
             if book_title == '' and author_list == '' and book_ISBN == '':
                 pass #searching with only JSON
             else:
-                context['error_message'] = "You must enter only JSON data OR title, author, and/or ISBN information into the search fields. Return Home to retry." #to home with must search by JSON only or not error
+                context['error_message'] = "You must enter only JSON data OR title, author, and/or ISBN information into the search fields. Return Home to retry."
                 return context
         else:
             if book_title == '' and author_list == '' and book_ISBN == '':
-                context['error_message'] = "Search fields were left blank. Please return to Home and enter search information." #to home with empty exception
+                context['error_message'] = "Search fields were left blank. Please return to Home and enter search information."
                 return context
             else:
                 pass #search using only non-JSON
@@ -125,8 +125,12 @@ class Results(LoginRequiredMixin, generic.ListView):
         context['TB_toggle'] = company.wants_tb
         return context
 
+
 @login_required
-def book_detail(request):
+def book_detail(request, book_id):
+
+
+    
     book_title = "stuff"
     book_subtitle = "lesser stuff"
     book_series = "even lesser stuff"
@@ -151,6 +155,7 @@ def book_detail(request):
         'book_description': book_description,
     }
     return render(request, 'book_detail.html', context = context)
+
 
 class CompanyDetail(LoginRequiredMixin, generic.ListView):
     """Generic class-based view listing companies, their users, and their search counts"""

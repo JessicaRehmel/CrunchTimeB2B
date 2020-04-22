@@ -12,7 +12,7 @@
                 {% for book, grade in KB_list %}
                     <div class = result>
                         <div class = "resulttext">
-                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <a href = "{% url 'book_detail' book.book_id %}" class = resultlink>
                             <div>
                                 <p>Title: {{ book.title }}</p>
                                 <p>Authors: 
@@ -24,6 +24,7 @@
                                 <p>Match Percentage: {{ grade }}%</p>
                             </div>
                             </a>
+                            
                         </div>
                         <div class = resultimage>
                             <a href = "{{ book.url }}"><img src = "{{book.book_image_url}}" alt = "yee" height="200" ></a>
@@ -48,7 +49,7 @@
                 {% for book, grade in GB_list %}
                     <div class = result>
                         <div class = "resulttext">
-                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <a href = "{% url 'book_detail' book.book_id %}" class = resultlink>
                             <div>
                                 <p>Title: {{ book.title }}</p>
                                 <p>Authors: 
@@ -84,7 +85,7 @@
                 {% for book, grade in SD_list %}
                     <div class = result>
                         <div class = "resulttext">
-                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <a href = "{% url 'book_detail' book.book_id %}" class = resultlink>
                             <div>
                                 <p>Title: {{ book.title }}</p>
                                 <p>Authors: 
@@ -120,7 +121,7 @@
                 {% for book, grade in LC_list %}
                     <div class = result>
                         <div class = "resulttext">
-                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <a href = "{% url 'book_detail' book.book_id %}" class = resultlink>
                             <div>
                                 <p>Title: {{ book.title }}</p>
                                 <p>Authors: 
@@ -156,7 +157,7 @@
                 {% for book, grade in TB_list %}
                     <div class = result>
                         <div class = "resulttext">
-                            <a href = "{% url 'book_detail' %}" class = resultlink>
+                            <a href = "{% url 'book_detail' book.book_id %}" class = resultlink>
                             <div>
                                 <p>Title: {{ book.title }}</p>
                                 <p>Authors: 
